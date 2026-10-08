@@ -86,7 +86,7 @@ Or delete the app and its leftovers by hand:
 - **Menu-bar item** — a monochrome template icon that you can hide from the General pane
 - **Launch at login** — register Spectacle 2 as a login item so it starts with your session
 - **Software updates** — check from the menu bar or the Updates pane, or turn on automatic checks; releases arrive over a signed Sparkle feed
-- **Seven languages** — English, Spanish, French, Japanese, Korean, Simplified Chinese, and Traditional Chinese, switchable in Settings without a restart
+- **Eight languages** — English, Spanish, French, Japanese, Korean, Russian, Simplified Chinese, and Traditional Chinese, switchable in Settings without a restart
 
 > [!NOTE]
 > Spectacle 2 is an independent open-source fork of [Spectacle](https://github.com/eczarny/spectacle) by Eric Czarny, rebuilt in Swift and maintained by [Teddy Chan](https://github.com/teddychan).

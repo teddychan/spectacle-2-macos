@@ -36,7 +36,7 @@ private struct GeneralPaneView: View {
                     .dragonAnnotation(LocalizedStringKey(L("app.general.dragSnapHint")))
             }
             // The shared language picker — every DragonKit app drops this in to get the
-            // full 7-language switcher (live, no restart).
+            // full 8-language switcher (live, no restart).
             DragonSection(LocalizedStringKey(L("app.general.languageSection"))) {
                 LanguagePicker()
             }

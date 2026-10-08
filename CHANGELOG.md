@@ -3,6 +3,18 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Russian.** Every app-owned string is translated, and the language picker offers Русский.
+  The terminology follows the translation @shendrykau contributed in teddychan/ice-2#132, and
+  matches DragonKit's own Russian table, so the kit's panes and the app's read as one.
+
+### Changed
+- **DragonKit 4.1.2 → 4.2.0**, which adds `DragonLanguage.ru`. Spectacle 2 calls a bare
+  `LanguagePicker()`, so the picker lists every kit language, and CONFORMANCE §R13 requires an
+  app doing that to ship each one — Russian included.
+
 ## [2.5.7] - 2026-08-20
 
 One user-facing safety fix, inherited from the kit rather than written here.
