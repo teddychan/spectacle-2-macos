@@ -12,7 +12,7 @@ Spectacle 2 organizes windows without a mouse. Press a shortcut and the frontmos
 
 ![General settings pane](docs/images/general-pane.png)
 
-[![Download](https://img.shields.io/badge/download-latest-brightgreen?style=flat-square)](https://github.com/teddychan/spectacle-2/releases/latest)
+[![Download](https://img.shields.io/badge/download-latest-brightgreen?style=flat-square)](https://github.com/teddychan/spectacle-2-macos/releases/latest)
 ![Platform](https://img.shields.io/badge/platform-macOS-blue?style=flat-square)
 ![Requirements](https://img.shields.io/badge/requirements-macOS%2026%2B-fa4e49?style=flat-square)
 [![Website](https://img.shields.io/badge/Website-dragonapp.com-015FBA?style=flat-square)](https://www.dragonapp.com/spectacle-2/)
@@ -48,7 +48,7 @@ brew install --cask teddychan/tap/spectacle-2
 
 ### Manual
 
-1. Download `Spectacle2-vX.Y.Z.zip` from the [latest release](https://github.com/teddychan/spectacle-2/releases/latest).
+1. Download `Spectacle2-vX.Y.Z.zip` from the [latest release](https://github.com/teddychan/spectacle-2-macos/releases/latest).
 2. Unzip it and move **Spectacle 2.app** to `/Applications`.
 3. Launch it, then grant access under **System Settings ▸ Privacy & Security ▸ Accessibility**.
 
@@ -166,7 +166,7 @@ Most applications built with the Cocoa frameworks can be manipulated through the
 Spectacle 2 is a Swift package — no Xcode project, no external package manager beyond SwiftPM.
 
 ```sh
-git clone https://github.com/teddychan/spectacle-2.git
+git clone https://github.com/teddychan/spectacle-2-macos.git
 cd spectacle-2
 swift build
 ```
@@ -183,7 +183,7 @@ It builds a debug binary, assembles a `.app` around it, re-identifies it as **Sp
 
 The suite lives in `Tests/SpectacleCoreTests` and exercises the pure geometry in `SpectacleCore`: halves, corners, thirds, center and fullscreen, repeat-press cycling, window gaps, drag-snap zones, size adjustment, screen cycling across displays, undo/redo history, and the default shortcut table. CI runs the whole suite on every pull request.
 
-[![Tests](https://github.com/teddychan/spectacle-2/actions/workflows/tests.yml/badge.svg)](https://github.com/teddychan/spectacle-2/actions/workflows/tests.yml)
+[![Tests](https://github.com/teddychan/spectacle-2-macos/actions/workflows/tests.yml/badge.svg)](https://github.com/teddychan/spectacle-2-macos/actions/workflows/tests.yml)
 
 ```bash
 swift test
