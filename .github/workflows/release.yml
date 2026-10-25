@@ -69,7 +69,7 @@ jobs:
       app_slug: spectacle-2
       # Self-host the appcast in THIS repo (docs/spectacle-2/appcast.xml) rather than the
       # marketing site — matches SUFeedURL in Info.plist.
-      appcast_repo: teddychan/spectacle-2
+      appcast_repo: teddychan/spectacle-2-macos
       # Package.swift stays at the repo root, so the SwiftPM build still runs there. The bundle
       # inputs no longer do: DragonKit CONFORMANCE §R16 puts Info.plist and AppIcon.icns in App/
       # at the repo root, in every Dragon app whatever builds it, so the two directories have
