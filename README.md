@@ -177,7 +177,7 @@ To run it locally, use the helper script:
 ./scripts/run.sh
 ```
 
-It builds a debug binary, assembles a `.app` around it, re-identifies it as **Spectacle 2 Debug** (`com.dragonapp.spectacle-2.debug`) so its Accessibility grant and settings never collide with an installed release copy, signs it, and launches it.
+It builds a debug binary, assembles a `.app` around it, re-identifies it as **Spectacle 2 Debug** (`com.dragonapp.spectacle-2.debug`) so its Accessibility grant and settings never collide with an installed release copy, signs it, installs it as `/Applications/Spectacle 2 Debug.app` (replacing the previous Debug copy), and launches it from there.
 
 ## Tests
 
