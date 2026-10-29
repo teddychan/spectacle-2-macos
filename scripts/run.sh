@@ -95,10 +95,12 @@ fi
 # go dead. yahoo-keykey-2 and ice-2 arrived at this independently; it is now the Dragon standard.
 "$PB" -c "Delete :SUFeedURL" "$APP/Contents/Info.plist" 2>/dev/null || true
 
-# Copy every SwiftPM resource bundle next to the binary: DragonKit_DragonKit.bundle (the kit's
+# Copy every SwiftPM resource bundle into Contents/Resources: DragonKit_DragonKit.bundle (the kit's
 # strings) AND Spectacle2_Spectacle2.bundle (the app's own strings, resolved at runtime via
-# LocalizationManager.appStringsBundle = AppResources.stringsBundle).
-cp -R "$BIN_DIR"/*.bundle "$APP/Contents/MacOS/" 2>/dev/null || true
+# LocalizationManager.appStringsBundle = AppResources.stringsBundle). Both lookups, and SwiftPM's
+# own Bundle.module, check Bundle.main.resourceURL first; next to the binary they found nothing and
+# the app trapped at launch.
+cp -R "$BIN_DIR"/*.bundle "$APP/Contents/Resources/" 2>/dev/null || true
 
 # App icon: CFBundleIconFile = "AppIcon" → macOS reads Contents/Resources/AppIcon.icns.
 # The checked-in .icns is the build's input and lives in App/ with the plist (§R16); Icon/ holds
@@ -126,10 +128,24 @@ else
   echo "      '$SIGN_IDENTITY' in Keychain Access (Certificate Assistant → Create a Certificate)."
 fi
 
-# Quit any previously-launched debug instance so a stale menu-bar icon doesn't linger. Matched on
-# this bundle's own path so it can never match the installed release app.
-pkill -f "$APP_NAME.app/Contents/MacOS" 2>/dev/null || true
+# Install into /Applications, where the release copy lives too, replacing the previous Debug copy
+# outright. The rm -rf below runs in /Applications, so refuse unless the identity is the Debug one.
+INSTALLED="/Applications/$APP_NAME.app"
+[[ "$APP_NAME" == *" Debug" && "$DEBUG_ID" == *.debug ]] \
+  || { echo "error: refusing to install a non-Debug identity into /Applications" >&2; exit 1; }
+
+# Quit any previously-launched debug instance so a stale menu-bar icon doesn't linger. Found by the
+# .debug bundle id, so it can never match the installed release app, and it also catches a Debug
+# copy launched from an older build folder.
+for ASN in $(lsappinfo find bundleid="$DEBUG_ID" | grep -oE 'ASN:0x[0-9a-f]+-0x[0-9a-f]+-' || true); do
+  PID="$(lsappinfo info -only pid "$ASN" | grep -oE 'pid"? ?= ?[0-9]+' | grep -oE '[0-9]+$' || true)"
+  [ -n "$PID" ] && kill "$PID" 2>/dev/null || true
+done
 sleep 1
+
+rm -rf "$INSTALLED"
+ditto "$APP" "$INSTALLED"
+APP="$INSTALLED"
 # -n forces a new instance of the bundle at exactly this path, rather than letting LaunchServices
 # resolve the .debug id to some other copy it has seen.
 open -n "$APP"
