@@ -7,17 +7,19 @@ import SpectacleCore
 // can't be granted Accessibility, so a simulated window and screen stand in for AX and NSScreen.
 
 /// One window on one 1440×875 visible frame. Like a real app, it keeps the requested top-left
-/// corner and picks its own size, here no narrower than `minimumWidth`.
+/// corner and picks its own size: no narrower than `minimumWidth`, rounded up to `cell`.
 private final class FakeWindows: WindowAccessing {
     // An element to identify the window by; never sent an AX message.
     let window = AXUIElementCreateApplication(getpid())
     var frame: CGRect
     let minimumWidth: CGFloat
+    let cell: CGSize
     private let visibleFrame = CGRect(x: 0, y: 0, width: 1440, height: 875)
 
-    init(_ frame: CGRect, minimumWidth: CGFloat = 0) {
+    init(_ frame: CGRect, minimumWidth: CGFloat = 0, cell: CGSize = CGSize(width: 1, height: 1)) {
         self.frame = frame
         self.minimumWidth = minimumWidth
+        self.cell = cell
     }
 
     var isTrusted: Bool { true }
@@ -25,7 +27,9 @@ private final class FakeWindows: WindowAccessing {
     func windowUnderCursor(atCocoaPoint p: CGPoint) -> AXUIElement? { window }
     func frame(of _: AXUIElement) -> CGRect? { frame }
     func setFrame(_ r: CGRect, of _: AXUIElement) {
-        frame = CGRect(x: r.minX, y: r.minY, width: max(r.width, minimumWidth), height: r.height)
+        let w = (max(r.width, minimumWidth) / cell.width).rounded(.up) * cell.width
+        let h = (r.height / cell.height).rounded(.up) * cell.height
+        frame = CGRect(x: r.minX, y: r.maxY - h, width: w, height: h)
     }
     func sourceVisibleFrame(for _: CGRect) -> CGRect { visibleFrame }
     func destinationVisibleFrame(for _: CGRect, direction _: Int) -> CGRect { visibleFrame }
@@ -55,6 +59,13 @@ private func snap(_ controller: WindowActionController, _ windows: FakeWindows, 
     let windows = FakeWindows(start, minimumWidth: 1000)
     snap(makeController(windows), windows, to: rightHalf)
     #expect(windows.frame == CGRect(x: 440, y: 0, width: 1000, height: 875))
+}
+
+@MainActor
+@Test func snapShrinksATerminalIntoTheTile() {
+    let windows = FakeWindows(start, cell: CGSize(width: 7, height: 14))
+    snap(makeController(windows), windows, to: rightHalf)
+    #expect(windows.frame == CGRect(x: 723, y: 4, width: 714, height: 868))
 }
 
 @MainActor
