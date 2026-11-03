@@ -19,7 +19,16 @@ enum WindowSizeAdjuster {
             r.origin.y = windowRect.origin.y - floor(offset / 2.0)
         }
         if isTooSmall(r, frame) { return windowRect }
-        return r
+        return clamped(r, frame)
+    }
+
+    /// Shifts `w` back inside `f` without resizing it, as the original's best-effort mover did after
+    /// every move: an edge more than 5 pt away isn't snapped, so the ±15 shift can overshoot it.
+    private static func clamped(_ w: CGRect, _ f: CGRect) -> CGRect {
+        var c = w
+        c.origin.x = max(f.minX, min(c.origin.x, f.maxX - c.width))
+        c.origin.y = max(f.minY, min(c.origin.y, f.maxY - c.height))
+        return c
     }
 
     private static func againstEdge(_ gap: CGFloat) -> Bool { abs(gap) <= 5.0 }
