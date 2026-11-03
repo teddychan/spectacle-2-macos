@@ -60,7 +60,7 @@ enum WindowActionMenu {
                                       keyEquivalent: "")
                 item.target = controller
                 item.representedObject = windowAction
-                item.image = NSImage(systemSymbolName: windowAction.symbolName, accessibilityDescription: nil)
+                item.image = windowAction.menuImage
                 if let shortcut = shortcuts[windowAction], let key = shortcut.menuKeyEquivalent {
                     item.keyEquivalent = key
                     item.keyEquivalentModifierMask = shortcut.menuModifierMask
@@ -96,33 +96,68 @@ extension WindowActionController {
 }
 
 extension WindowAction {
-    var symbolName: String {
+    var menuImage: NSImage? {
         switch self {
-        case .leftHalf: "rectangle.lefthalf.filled"
-        case .rightHalf: "rectangle.righthalf.filled"
-        case .topHalf: "rectangle.tophalf.filled"
-        case .bottomHalf: "rectangle.bottomhalf.filled"
-        case .upperLeft: "rectangle.inset.topleft.filled"
-        case .upperRight: "rectangle.inset.topright.filled"
-        case .lowerLeft: "rectangle.inset.bottomleft.filled"
-        case .lowerRight: "rectangle.inset.bottomright.filled"
-        case .previousThird: "rectangle.leadingthird.inset.filled"
-        case .nextThird: "rectangle.trailingthird.inset.filled"
-        case .leftThird: "rectangle.leadingthird.inset.filled"
-        case .centerThird: "rectangle.portrait.center.inset.filled"
-        case .rightThird: "rectangle.trailingthird.inset.filled"
-        case .leftTwoThirds: "rectangle.leadinghalf.inset.filled"
-        case .centerTwoThirds: "inset.filled.leftthird.middlethird.rightthird.rectangle"
-        case .rightTwoThirds: "rectangle.trailinghalf.inset.filled"
-        case .center: "rectangle.center.inset.filled"
-        case .fullscreen: "rectangle.inset.filled"
-        case .makeLarger: "arrow.up.left.and.arrow.down.right"
-        case .makeSmaller: "arrow.down.right.and.arrow.up.left"
-        case .nextDisplay: "rectangle.righthalf.inset.filled.arrow.right"
-        case .previousDisplay: "rectangle.lefthalf.inset.filled.arrow.left"
-        case .undo: "arrow.uturn.backward"
-        case .redo: "arrow.uturn.forward"
+        case .leftHalf: symbol("rectangle.lefthalf.filled")
+        case .rightHalf: symbol("rectangle.righthalf.filled")
+        case .topHalf: symbol("rectangle.tophalf.filled")
+        case .bottomHalf: symbol("rectangle.bottomhalf.filled")
+        case .upperLeft: symbol("rectangle.inset.topleft.filled")
+        case .upperRight: symbol("rectangle.inset.topright.filled")
+        case .lowerLeft: symbol("rectangle.inset.bottomleft.filled")
+        case .lowerRight: symbol("rectangle.inset.bottomright.filled")
+        case .previousThird: symbol("rectangle.leadingthird.inset.filled")
+        case .nextThird: symbol("rectangle.trailingthird.inset.filled")
+        case .leftThird: Self.columns(0..<1)
+        case .centerThird: Self.columns(1..<2)
+        case .rightThird: Self.columns(2..<3)
+        case .leftTwoThirds: Self.columns(0..<2)
+        case .centerTwoThirds: Self.centeredTwoThirds
+        case .rightTwoThirds: Self.columns(1..<3)
+        case .center: symbol("rectangle.center.inset.filled")
+        case .fullscreen: symbol("rectangle.inset.filled")
+        case .makeLarger: symbol("arrow.up.left.and.arrow.down.right")
+        case .makeSmaller: symbol("arrow.down.right.and.arrow.up.left")
+        case .nextDisplay: symbol("rectangle.righthalf.inset.filled.arrow.right")
+        case .previousDisplay: symbol("rectangle.lefthalf.inset.filled.arrow.left")
+        case .undo: symbol("arrow.uturn.backward")
+        case .redo: symbol("arrow.uturn.forward")
         }
+    }
+
+    private func symbol(_ name: String) -> NSImage? {
+        NSImage(systemSymbolName: name, accessibilityDescription: nil)
+    }
+
+    /// SF Symbols has no icon for a center third or any two thirds, so the fixed thirds draw their
+    /// own, sized to the 12 by 9.5 pt a menu draws `rectangle.inset.filled` at, so they line up.
+    private static func columns(_ span: Range<Int>) -> NSImage {
+        tile { inner in
+            let gap: CGFloat = 0.6, column = (inner.width - 2 * gap) / 3
+            return NSRect(x: inner.minX + CGFloat(span.lowerBound) * (column + gap), y: inner.minY,
+                          width: CGFloat(span.count) * column + CGFloat(span.count - 1) * gap, height: inner.height)
+        }
+    }
+
+    private static var centeredTwoThirds: NSImage {
+        tile { inner in
+            let gap: CGFloat = 0.6, width = 2 * (inner.width - 2 * gap) / 3 + gap
+            return NSRect(x: inner.midX - width / 2, y: inner.minY, width: width, height: inner.height)
+        }
+    }
+
+    private static func tile(fill: @escaping (NSRect) -> NSRect) -> NSImage {
+        let image = NSImage(size: NSSize(width: 18, height: 14), flipped: false) { _ in
+            let outer = NSRect(x: 3, y: 2.25, width: 12, height: 9.5)
+            let outline = NSBezierPath(roundedRect: outer.insetBy(dx: 0.45, dy: 0.45), xRadius: 2.1, yRadius: 2.1)
+            outline.lineWidth = 0.9
+            NSColor.black.set()
+            outline.stroke()
+            NSBezierPath(roundedRect: fill(outer.insetBy(dx: 1.75, dy: 1.75)), xRadius: 0.8, yRadius: 0.8).fill()
+            return true
+        }
+        image.isTemplate = true
+        return image
     }
 }
 
