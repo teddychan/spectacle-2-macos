@@ -6,8 +6,9 @@
 "app.general.showInMenuBar" = "메뉴 막대에 표시";
 "app.general.showInMenuBarHint" = "메뉴 막대 아이콘을 숨깁니다. 실행 시 숨겨져 있으면 다시 켤 수 있도록 설정이 자동으로 열립니다.";
 "app.general.languageSection" = "언어";
-"app.whatsNew.summary" = "이제 모든 창 동작을 메뉴 막대 메뉴에서 선택할 수 있어 마우스나 트랙패드로 창을 배치할 수 있습니다.";
-"app.whatsNew.added1" = "메뉴 막대의 Spectacle 2 아이콘을 클릭하면 맨 앞 창을 화면의 절반, 모서리, 3분의 1로 옮기거나, 가운데에 두거나, 화면을 가득 채우거나, 크기를 바꾸거나, 다른 디스플레이로 보내거나, 이동을 취소할 수 있습니다. 각 항목에는 단축키가 표시되며, 지금 사용할 수 없는 항목은 흐리게 표시됩니다.";
+"app.whatsNew.summary" = "맨 앞 창을 화면의 정해진 3분의 1 또는 3분의 2에 놓는 새 배치 6개가 추가되었습니다.";
+"app.whatsNew.added1" = "왼쪽 3분의 1, 가운데 3분의 1, 오른쪽 3분의 1, 왼쪽 3분의 2, 가운데 3분의 2, 오른쪽 3분의 2를 메뉴 막대 메뉴에서 선택할 수 있습니다. 키보드로 사용하려면 설정 › 단축키에서 단축키를 지정하세요.";
+"app.whatsNew.changed1" = "다음 3분할 영역과 이전 3분할 영역은 이제 메뉴 막대 메뉴에 없습니다. 단축키는 계속 작동합니다.";
 "app.uninstall.item.app" = "앱과 로그인 항목";
 "app.uninstall.item.settings" = "모든 설정";
 "app.uninstall.item.state" = "저장된 응용 프로그램 상태";

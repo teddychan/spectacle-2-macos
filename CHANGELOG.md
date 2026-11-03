@@ -3,6 +3,20 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [2.8.0] - 2026-11-03
+
+Six new layouts put the front window in a fixed third or two thirds of the screen.
+
+### Added
+- **Left, Center and Right Third, and Left, Center and Right Two Thirds.** They are in the menu bar
+  menu and in Settings › Shortcuts, where you can give each one a shortcut; none has one by
+  default. Each lands on the same columns on every press, and the single thirds and the left and
+  right two thirds match where drag to snap puts a window.
+
+### Changed
+- **Next Third and Previous Third are no longer in the menu bar menu.** Their shortcuts still work,
+  and they stay in Settings › Shortcuts.
+
 ## [2.7.0] - 2026-11-03
 
 Every window action is now in the menu bar menu, so you can arrange windows with a mouse or
