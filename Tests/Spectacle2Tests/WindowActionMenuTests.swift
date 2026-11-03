@@ -56,8 +56,7 @@ private func menuItems(shortcuts: [WindowAction: Shortcut] = DefaultShortcuts.ma
                        availability: WindowActionAvailability = everythingAvailable,
                        controller: WindowActionController? = nil) -> [NSMenuItem] {
     let controller = controller ?? WindowActionController(makeHotKeys: { _ in NoHotKeys() }, windows: FakeWindows())
-    return WindowActionMenu.items(shortcuts: shortcuts, availability: availability, target: controller,
-                                  action: #selector(WindowActionController.performMenuItem(_:)))
+    return WindowActionMenu.items(shortcuts: shortcuts, availability: availability, controller: controller)
 }
 
 @MainActor
