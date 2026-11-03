@@ -284,8 +284,7 @@ extension AppDelegate: NSMenuDelegate {
         let availability = WindowActionAvailability(
             isTrusted: trusted, hasTargetWindow: windowActions.hasTargetWindow, displayCount: NSScreen.screens.count)
         for item in WindowActionMenu.items(shortcuts: shortcutStore.load(), availability: availability,
-                                           target: windowActions,
-                                           action: #selector(WindowActionController.performMenuItem(_:))) {
+                                           controller: windowActions) {
             menu.addItem(item)
         }
         let base = buildMenu()

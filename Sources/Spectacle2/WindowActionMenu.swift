@@ -40,15 +40,16 @@ struct WindowActionAvailability {
 @MainActor
 enum WindowActionMenu {
     /// One item per Window Action, groups separated, ending in a separator so the caller can
-    /// append its own items. Each item carries its `WindowAction` as `representedObject`.
+    /// append its own items. Choosing one has `controller` perform its action.
     static func items(shortcuts: [WindowAction: Shortcut], availability: WindowActionAvailability,
-                      target: AnyObject, action: Selector) -> [NSMenuItem] {
+                      controller: WindowActionController) -> [NSMenuItem] {
         var items: [NSMenuItem] = []
         for group in WindowActionGroup.all {
             for windowAction in group.actions {
-                let item = NSMenuItem(title: L("app.action.\(windowAction.rawValue)"), action: action,
+                let item = NSMenuItem(title: L("app.action.\(windowAction.rawValue)"),
+                                      action: #selector(WindowActionController.performMenuItem(_:)),
                                       keyEquivalent: "")
-                item.target = target
+                item.target = controller
                 item.representedObject = windowAction
                 item.image = NSImage(systemSymbolName: windowAction.symbolName, accessibilityDescription: nil)
                 if let shortcut = shortcuts[windowAction], let key = shortcut.menuKeyEquivalent {
