@@ -180,6 +180,11 @@ private let snapScreens = [vf, CGRect(x: 0, y: 0, width: 1441, height: 875),
                 #expect(SnapGeometry.rect(.firstThird, visibleFrame: screen, gap: g) == first, "\(screen) \(g)")
                 #expect(SnapGeometry.rect(.centerThird, visibleFrame: screen, gap: g) == center, "\(screen) \(g)")
                 #expect(SnapGeometry.rect(.lastThird, visibleFrame: screen, gap: g) == last, "\(screen) \(g)")
+                // Two-thirds equal the ⅔ step of Left Half and Right Half (#70).
+                let leftTwo = keyboard(.leftHalf, screen, g, from: keyboard(.leftHalf, screen, g))
+                let rightTwo = keyboard(.rightHalf, screen, g, from: keyboard(.rightHalf, screen, g))
+                #expect(SnapGeometry.rect(.firstTwoThirds, visibleFrame: screen, gap: g) == leftTwo, "\(screen) \(g)")
+                #expect(SnapGeometry.rect(.lastTwoThirds, visibleFrame: screen, gap: g) == rightTwo, "\(screen) \(g)")
             }
         }
     }
