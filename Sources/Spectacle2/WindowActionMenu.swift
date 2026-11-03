@@ -65,6 +65,19 @@ enum WindowActionMenu {
     }
 }
 
+extension WindowActionMenu {
+    /// Fills the Status Menu with `items`. Auto-enabling is off because AppKit would otherwise turn
+    /// every Window Action back on when the menu opens: the items carry their own enabled state.
+    static func replaceItems(of menu: NSMenu, with items: [NSMenuItem]) {
+        menu.autoenablesItems = false
+        menu.removeAllItems()
+        for item in items {
+            item.keepImageVisible()
+            menu.addItem(item)
+        }
+    }
+}
+
 extension WindowActionController {
     /// The Status Menu items' action: a click runs the same path as the item's Shortcut.
     @objc func performMenuItem(_ sender: NSMenuItem) {

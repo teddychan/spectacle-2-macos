@@ -107,8 +107,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // current language and lets the Accessibility warning appear/disappear as permission changes.
         let menu = NSMenu()
         menu.delegate = self
-        // The Window Action items set their own enabled state from the Target Window and displays.
-        menu.autoenablesItems = false
         item.menu = menu
         item.isVisible = model.showInMenuBar
         self.statusItem = item
@@ -272,27 +270,22 @@ extension AppDelegate: NSMenuDelegate {
         // a second self-heal trigger: re-arm drag-snap here too (idempotent) in case the user
         // granted Accessibility directly in System Settings without returning to a window.
         if model.dragSnapEnabled { dragSnap?.start() }
-        menu.removeAllItems()
+        var items: [NSMenuItem] = []
         let trusted = AXIsProcessTrusted()
         if !trusted {
             let warn = NSMenuItem(title: L("app.menu.accessibilityNeeded"),
                                   action: #selector(openPermissions), keyEquivalent: "")
             warn.target = self
-            menu.addItem(warn)
-            menu.addItem(.separator())
+            items += [warn, .separator()]
         }
         let availability = WindowActionAvailability(
             isTrusted: trusted, hasTargetWindow: windowActions.hasTargetWindow, displayCount: NSScreen.screens.count)
-        for item in WindowActionMenu.items(shortcuts: shortcutStore.load(), availability: availability,
-                                           controller: windowActions) {
-            menu.addItem(item)
-        }
+        items += WindowActionMenu.items(shortcuts: shortcutStore.load(), availability: availability,
+                                        controller: windowActions)
         let base = buildMenu()
-        for item in base.items {
-            base.removeItem(item)
-            menu.addItem(item)
-        }
-        for item in menu.items { item.keepImageVisible() }
+        items += base.items
+        base.removeAllItems()
+        WindowActionMenu.replaceItems(of: menu, with: items)
     }
 }
 
