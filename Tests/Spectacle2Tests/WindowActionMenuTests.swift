@@ -146,3 +146,11 @@ private func item(_ action: WindowAction, in items: [NSMenuItem]) -> NSMenuItem 
     windows.hasFocusedWindow = false
     #expect(!controller.hasTargetWindow)
 }
+
+@Test func menuItemImagesStayVisibleOnMacOS27() {
+    let item = NSMenuItem(title: "Left Half", action: nil, keyEquivalent: "")
+    item.keepImageVisible()
+    if #available(macOS 27, *) {
+        #expect(item.value(forKey: "preferredImageVisibility") as? Int == 1)
+    }
+}
