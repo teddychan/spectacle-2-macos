@@ -133,3 +133,70 @@ private let bottomLastX = CGPoint(x: 1400, y: 2)
     let midScreen = CGPoint(x: 2, y: 450)
     #expect(SnapGeometry.target(for: .left, cursor: midScreen, screen: screen, previousBottomColumn: nil).target == .leftHalf)
 }
+
+// MARK: Snapped tiles match the keyboard tiles (#67, #68)
+
+@Test func snapSkipTopKeepsAFullGapBetweenStackedWindows() {
+    // gap 10, skipTop: stacked halves and corners are 10 apart, and the upper ones reach maxY 900.
+    let g = WindowGap(size: 10, skipTopEdge: true)
+    for (upper, lower) in [(SnapTarget.topHalf, SnapTarget.bottomHalf), (.topLeft, .bottomLeft), (.topRight, .bottomRight)] {
+        let u = SnapGeometry.rect(upper, visibleFrame: vf, gap: g)
+        let l = SnapGeometry.rect(lower, visibleFrame: vf, gap: g)
+        #expect(u.minY - l.maxY == 10, "\(upper) / \(lower)")
+        #expect(u.maxY == vf.maxY, "\(upper)")
+    }
+}
+
+/// The keyboard result for `a` on `screen`, from `win` or else a small window that does not cycle.
+private func keyboard(_ a: WindowAction, _ screen: CGRect, _ g: WindowGap, from win: CGRect? = nil) -> CGRect {
+    WindowCalculator.calculate(a, CalculationInput(
+        windowRect: win ?? CGRect(x: screen.minX, y: screen.minY, width: 10, height: 10),
+        sourceVisibleFrame: screen, destinationVisibleFrame: screen,
+        gap: g.size, skipGapTopEdge: g.skipTopEdge))!
+}
+
+// Odd sizes, and a screen above and left of the main one.
+private let snapScreens = [vf, CGRect(x: 0, y: 0, width: 1441, height: 875),
+                           CGRect(x: -1280, y: 900, width: 1279, height: 777)]
+
+@Test func snapMatchesKeyboardTiles() {
+    let pairs: [(SnapTarget, WindowAction)] = [
+        (.leftHalf, .leftHalf), (.rightHalf, .rightHalf), (.topHalf, .topHalf), (.bottomHalf, .bottomHalf),
+        (.topLeft, .upperLeft), (.topRight, .upperRight), (.bottomLeft, .lowerLeft), (.bottomRight, .lowerRight),
+        (.maximize, .fullscreen),
+    ]
+    for screen in snapScreens {
+        for size: CGFloat in [0, 4, 10, 30] {
+            for skipTop in [false, true] {
+                let g = WindowGap(size: size, skipTopEdge: skipTop)
+                for (target, action) in pairs {
+                    #expect(SnapGeometry.rect(target, visibleFrame: screen, gap: g) == keyboard(action, screen, g),
+                            "\(target) \(screen) \(g)")
+                }
+                // Next Third from a fresh window visits the first, center and last column in turn.
+                let first = keyboard(.nextThird, screen, g)
+                let center = keyboard(.nextThird, screen, g, from: first)
+                let last = keyboard(.nextThird, screen, g, from: center)
+                #expect(SnapGeometry.rect(.firstThird, visibleFrame: screen, gap: g) == first, "\(screen) \(g)")
+                #expect(SnapGeometry.rect(.centerThird, visibleFrame: screen, gap: g) == center, "\(screen) \(g)")
+                #expect(SnapGeometry.rect(.lastThird, visibleFrame: screen, gap: g) == last, "\(screen) \(g)")
+            }
+        }
+    }
+}
+
+@Test func snapThirdsAreAGapApartOnOddWidths() {
+    // Working widths 1441, 1430, 1438 and 1277 leave 1, 2, 1 and 2 over after dividing by 3.
+    let cases: [(CGRect, CGFloat)] = [(CGRect(x: 0, y: 0, width: 1441, height: 900), 0), (vf, 10), (vf, 2),
+                                      (CGRect(x: -1280, y: 900, width: 1279, height: 777), 2)]
+    for (screen, size) in cases {
+        func r(_ t: SnapTarget) -> CGRect { SnapGeometry.rect(t, visibleFrame: screen, gap: WindowGap(size: size)) }
+        #expect(r(.firstThird).minX - screen.minX == size, "\(screen) \(size)")
+        #expect(r(.centerThird).minX - r(.firstThird).maxX == size, "\(screen) \(size)")
+        #expect(r(.lastThird).minX - r(.centerThird).maxX == size, "\(screen) \(size)")
+        #expect(screen.maxX - r(.lastThird).maxX == size, "\(screen) \(size)")
+        // A two-thirds tile sits beside the opposite third the same way.
+        #expect(r(.lastThird).minX - r(.firstTwoThirds).maxX == size, "\(screen) \(size)")
+        #expect(r(.lastTwoThirds).minX - r(.firstThird).maxX == size, "\(screen) \(size)")
+    }
+}
