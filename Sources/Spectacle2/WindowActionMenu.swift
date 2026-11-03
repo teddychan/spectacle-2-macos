@@ -3,10 +3,17 @@ import DragonKit
 import SpectacleCore
 
 /// The Window Actions in display order, grouped the way Spectacle's preferences lay them out.
-/// The Shortcuts pane's sections and the Status Menu's separated groups both read this table.
+/// The Shortcuts pane's sections list every action; the Status Menu's separated groups list
+/// `menuActions`.
 struct WindowActionGroup {
     let titleKey: String
     let actions: [WindowAction]
+
+    /// Next and Previous Third step through tiles one press at a time, which suits a Shortcut but
+    /// not a menu opened for each step, so they keep only their Shortcuts.
+    static let shortcutOnly: Set<WindowAction> = [.nextThird, .previousThird]
+
+    var menuActions: [WindowAction] { actions.filter { !Self.shortcutOnly.contains($0) } }
 
     static let all: [WindowActionGroup] = [
         WindowActionGroup(titleKey: "app.shortcuts.section.halves",
@@ -47,7 +54,7 @@ enum WindowActionMenu {
                       controller: WindowActionController) -> [NSMenuItem] {
         var items: [NSMenuItem] = []
         for group in WindowActionGroup.all {
-            for windowAction in group.actions {
+            for windowAction in group.menuActions {
                 let item = NSMenuItem(title: L("app.action.\(windowAction.rawValue)"),
                                       action: #selector(WindowActionController.performMenuItem(_:)),
                                       keyEquivalent: "")
