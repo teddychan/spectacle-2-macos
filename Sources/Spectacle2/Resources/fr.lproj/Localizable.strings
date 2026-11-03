@@ -6,9 +6,8 @@
 "app.general.showInMenuBar" = "Afficher dans la barre des menus";
 "app.general.showInMenuBarHint" = "Masque l'icône de la barre des menus. Si elle est masquée au lancement, les Réglages s'ouvrent automatiquement pour la réactiver.";
 "app.general.languageSection" = "Langue";
-"app.whatsNew.summary" = "Six nouvelles dispositions placent la fenêtre active sur un tiers ou deux tiers fixes de l'écran.";
-"app.whatsNew.added1" = "Tiers gauche, Tiers central, Tiers droit, Deux tiers à gauche, Deux tiers au centre et Deux tiers à droite, dans le menu de la barre des menus. Pour les utiliser au clavier, attribuez-leur un raccourci dans Réglages › Raccourcis.";
-"app.whatsNew.changed1" = "Tiers suivant et Tiers précédent ne figurent plus dans le menu de la barre des menus. Leurs raccourcis fonctionnent toujours.";
+"app.whatsNew.summary" = "Une version de maintenance qui fait passer Spectacle 2 à la dernière version du framework partagé sur lequel il repose. La gestion des fenêtres fonctionne comme avant.";
+"app.whatsNew.changed1" = "Mise à jour vers DragonKit 4.3.0, le framework partagé derrière Réglages, À propos, Nouveautés et les mises à jour. Seule la version a changé : aucun de ces volets n'a changé d'apparence ni de comportement.";
 "app.uninstall.item.app" = "L'app et son élément d'ouverture";
 "app.uninstall.item.settings" = "Tous les réglages";
 "app.uninstall.item.state" = "État enregistré de l'application";

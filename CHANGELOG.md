@@ -3,6 +3,17 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [2.8.1] - 2026-11-03
+
+A maintenance release on DragonKit 4.3.0. Nothing you use day to day works differently.
+
+### Changed
+- **DragonKit 4.2.0 → 4.3.0**, the shared framework behind Settings, About, What's New and
+  updates. About's "Built with" row shows the new version, and nothing else looks or works
+  differently. The kit's fix in 4.3.0 keeps menu icons visible on macOS 27, which Spectacle 2 has
+  done for its whole menu since 2.7.0. The app now uses the kit's code for that and drops its own
+  copy.
+
 ## [2.8.0] - 2026-11-03
 
 Six new layouts put the front window in a fixed third or two thirds of the screen.
