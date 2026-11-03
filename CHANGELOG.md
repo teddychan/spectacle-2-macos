@@ -15,6 +15,10 @@ trackpad.
   shows its current shortcut. They are greyed out when Accessibility access is off or no window is
   focused, and the two display items are greyed out when only one screen is connected.
 
+### Fixed
+- **The menu's icons show again on macOS 27.** macOS 27 hides menu icons unless an app asks for
+  them, so About, Settings and Quit had lost theirs.
+
 ## [2.6.0] - 2026-11-03
 
 Russian, plus fixes for settings that could reset, shortcuts that could stop working, and windows
