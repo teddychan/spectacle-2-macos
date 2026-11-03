@@ -107,6 +107,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // current language and lets the Accessibility warning appear/disappear as permission changes.
         let menu = NSMenu()
         menu.delegate = self
+        // The Window Action items set their own enabled state from the Target Window and displays.
+        menu.autoenablesItems = false
         item.menu = menu
         item.isVisible = model.showInMenuBar
         self.statusItem = item
@@ -261,21 +263,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 extension AppDelegate: NSMenuDelegate {
-    /// Rebuilds the status-item menu just before it opens: fresh (current-language) items from
-    /// the canonical `DragonAppMenu`, topped with an Accessibility-access warning whenever the
-    /// permission is missing — so a user whose hot keys do nothing has a visible way to fix it.
+    /// Rebuilds the status-item menu just before it opens: the Window Actions with their current
+    /// Shortcuts, then fresh (current-language) items from the canonical `DragonAppMenu`, topped
+    /// with an Accessibility-access warning whenever the permission is missing — so a user whose
+    /// hot keys do nothing has a visible way to fix it.
     func menuNeedsUpdate(_ menu: NSMenu) {
         // Opening the menu is the most frequent interaction with a menu-bar-only app, so use it as
         // a second self-heal trigger: re-arm drag-snap here too (idempotent) in case the user
         // granted Accessibility directly in System Settings without returning to a window.
         if model.dragSnapEnabled { dragSnap?.start() }
         menu.removeAllItems()
-        if !AXIsProcessTrusted() {
+        let trusted = AXIsProcessTrusted()
+        if !trusted {
             let warn = NSMenuItem(title: L("app.menu.accessibilityNeeded"),
                                   action: #selector(openPermissions), keyEquivalent: "")
             warn.target = self
             menu.addItem(warn)
             menu.addItem(.separator())
+        }
+        let availability = WindowActionAvailability(
+            isTrusted: trusted, hasTargetWindow: windowActions.hasTargetWindow, displayCount: NSScreen.screens.count)
+        for item in WindowActionMenu.items(shortcuts: shortcutStore.load(), availability: availability,
+                                           target: windowActions,
+                                           action: #selector(WindowActionController.performMenuItem(_:))) {
+            menu.addItem(item)
         }
         let base = buildMenu()
         for item in base.items {
