@@ -75,7 +75,7 @@ Or delete the app and its leftovers by hand:
 
 ## Features
 
-- **24 window actions** — halves, corners, thirds, two thirds, fullscreen, center, resize, display moves, and undo/redo, each on its own global shortcut
+- **24 window actions** — halves, corners, thirds, two thirds, fullscreen, center, resize, display moves, and undo/redo, each one available as a global shortcut
 - **Repeat-press cycling** — press a half or corner shortcut again to cycle that window through ½, ⅔, and ⅓ of the region
 - **Thirds navigation** — ⌃⌥→ and ⌃⌥← step a window through three vertical columns and three horizontal rows
 - **Drag-to-edge snapping** — drag a window to a screen edge or corner to snap it, with a translucent footprint preview of where it will land
