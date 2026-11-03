@@ -24,4 +24,16 @@ public struct WindowGap: Equatable, Sendable {
         out.size.height -= skipTop ? half : 2 * half      // top edge optional
         return out
     }
+
+    /// The exact inverse of `inset`: grow `r` back by `half` on each edge (top optional). Turns a
+    /// gapped window back into the un-gapped rect it was tiled from.
+    public static func outset(_ r: CGRect, half: CGFloat, skipTop: Bool) -> CGRect {
+        guard half > 0 else { return r }
+        var out = r
+        out.origin.x -= half
+        out.size.width += 2 * half
+        out.origin.y -= half
+        out.size.height += skipTop ? half : 2 * half
+        return out
+    }
 }

@@ -34,21 +34,24 @@ public enum WindowCalculator {
         let frame = WindowGap.inset(vf, half: half, skipTop: skip)
         // Gap-applicable results are shrunk by the other half; size-preserving actions are not.
         func g(_ r: CGRect) -> CGRect { WindowGap.inset(r, half: half, skipTop: skip) }
+        // The cycling checks compare the window with un-gapped candidates, so undo `g` first. With
+        // skipTop the inset is lopsided and moves the center off the candidate's by gap/4 (#57).
+        let tiled = WindowGap.outset(win, half: half, skipTop: skip)
         switch action {
-        case .leftHalf:   return g(leftHalf(win, frame))
-        case .rightHalf:  return g(rightHalf(win, frame))
-        case .topHalf:    return g(topHalf(win, frame))
-        case .bottomHalf: return g(bottomHalf(win, frame))
-        case .upperLeft:  return g(upperLeft(win, frame))
-        case .upperRight: return g(upperRight(win, frame))
-        case .lowerLeft:  return g(lowerLeft(win, frame))
-        case .lowerRight: return g(lowerRight(win, frame))
+        case .leftHalf:   return g(leftHalf(tiled, frame))
+        case .rightHalf:  return g(rightHalf(tiled, frame))
+        case .topHalf:    return g(topHalf(tiled, frame))
+        case .bottomHalf: return g(bottomHalf(tiled, frame))
+        case .upperLeft:  return g(upperLeft(tiled, frame))
+        case .upperRight: return g(upperRight(tiled, frame))
+        case .lowerLeft:  return g(lowerLeft(tiled, frame))
+        case .lowerRight: return g(lowerRight(tiled, frame))
         case .center:     return center(win, vf)            // size-preserving → ungapped
         case .fullscreen: return g(frame)                   // == vf inset by full gap
         case .makeLarger:  return WindowSizeAdjuster.resize(win, vf, offset: 30)
         case .makeSmaller: return WindowSizeAdjuster.resize(win, vf, offset: -30)
-        case .nextThird:     return g(third(win, frame, step: +1))
-        case .previousThird: return g(third(win, frame, step: -1))
+        case .nextThird:     return g(third(tiled, frame, step: +1))
+        case .previousThird: return g(third(tiled, frame, step: -1))
         case .nextDisplay, .previousDisplay:
             return SpectacleGeometry.rectFitsWithin(win: win, screen: vf) ? center(win, vf) : g(frame)
         case .undo, .redo: return nil
