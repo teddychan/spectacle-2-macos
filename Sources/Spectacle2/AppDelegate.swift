@@ -292,6 +292,7 @@ extension AppDelegate: NSMenuDelegate {
             base.removeItem(item)
             menu.addItem(item)
         }
+        for item in menu.items { item.keepImageVisible() }
     }
 }
 

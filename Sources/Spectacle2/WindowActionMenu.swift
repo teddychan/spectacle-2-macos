@@ -98,6 +98,15 @@ extension WindowAction {
     }
 }
 
+extension NSMenuItem {
+    /// macOS 27 hides menu item images unless the item asks for `preferredImageVisibility = .visible`.
+    /// Set by key because the release runner builds with the macOS 26 SDK, which lacks the property.
+    func keepImageVisible() {
+        guard responds(to: Selector(("setPreferredImageVisibility:"))) else { return }
+        setValue(1, forKey: "preferredImageVisibility")
+    }
+}
+
 extension Shortcut {
     /// The menu item key equivalent for this key, or nil when it has no character a menu can show.
     var menuKeyEquivalent: String? {
