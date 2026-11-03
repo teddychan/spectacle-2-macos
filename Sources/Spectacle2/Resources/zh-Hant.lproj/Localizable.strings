@@ -6,9 +6,8 @@
 "app.general.showInMenuBar" = "在選單列中顯示";
 "app.general.showInMenuBarHint" = "隱藏選單列圖像。若啟動時已隱藏，將自動打開設定以便重新開啟。";
 "app.general.languageSection" = "語言";
-"app.whatsNew.summary" = "新增六種排列方式，可將最前方的視窗放到螢幕固定的三分之一或三分之二。";
-"app.whatsNew.added1" = "左三分之一、中間三分之一、右三分之一、左三分之二、中間三分之二和右三分之二，可在選單列選單中選擇。若要用鍵盤操作，請在「設定 › 快速鍵」中為它們指定快速鍵。";
-"app.whatsNew.changed1" = "「下一個三分區」和「上一個三分區」已不在選單列選單中，它們的快速鍵仍可使用。";
+"app.whatsNew.summary" = "這是一次維護更新。Spectacle 2 升級了所依賴的共用框架，視窗管理與先前完全相同。";
+"app.whatsNew.changed1" = "更新到 DragonKit 4.3.0，這是支援設定、關於、新功能和軟體更新的共用框架。這次只是版本變化，這些面板的外觀和行為都沒有改變。";
 "app.uninstall.item.app" = "App 及其登入項目";
 "app.uninstall.item.settings" = "所有設定";
 "app.uninstall.item.state" = "已儲存的應用程式狀態";
