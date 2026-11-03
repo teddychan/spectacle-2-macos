@@ -168,26 +168,33 @@ public enum WindowCalculator {
 
     // MARK: Center
 
+    /// An axis the window is too big for pins it to the frame's left or bottom edge instead of going
+    /// negative, as the original's best-effort mover did after every move (#61).
     static func center(_ win: CGRect, _ f: CGRect) -> CGRect {
         var r = win
-        r.origin.x = ((f.width - win.width) / 2.0).rounded() + f.origin.x
-        r.origin.y = ((f.height - win.height) / 2.0).rounded() + f.origin.y
+        r.origin.x = max(0, ((f.width - win.width) / 2.0).rounded()) + f.origin.x
+        r.origin.y = max(0, ((f.height - win.height) / 2.0).rounded()) + f.origin.y
         return r
     }
 
     // MARK: Thirds — 3 vertical columns then 3 horizontal rows
 
+    /// Each third is floored as in the original, but the right column and the bottom row run to the
+    /// frame's edge, so the remainder (0–2 pt) goes to them rather than to the margin (#64).
     static func thirds(_ f: CGRect) -> [CGRect] {
         var regions: [CGRect] = []
         let w = floor(f.width / 3.0)
         for i in 0..<3 {
-            var r = f; r.origin.x = f.origin.x + w * CGFloat(i); r.size.width = w; regions.append(r)
+            var r = f; r.origin.x = f.origin.x + w * CGFloat(i); r.size.width = w
+            if i == 2 { r.size.width = f.maxX - r.minX }
+            regions.append(r)
         }
         let h = floor(f.height / 3.0)
         for i in 0..<3 {
             var r = f
             r.origin.y = f.origin.y + f.height - h * CGFloat(i + 1)
             r.size.height = h
+            if i == 2 { r.size.height = r.maxY - f.minY; r.origin.y = f.minY }
             regions.append(r)
         }
         return regions

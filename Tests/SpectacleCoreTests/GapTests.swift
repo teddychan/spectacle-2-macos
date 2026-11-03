@@ -134,13 +134,14 @@ private let offAxis = CGRect(x: 0, y: 0, width: 10, height: 10)
 }
 
 @Test func gapSkipTopThirdsCycle() {
-    // Columns 476 wide at x = 5, 481, 957; rows 298 high at y = 602, 304, 6; each inset 5 (not top).
+    // Columns 476 wide at x = 5, 481, 957 (the last 478, to the frame's edge); rows 298 high at
+    // y = 602, 304 and 299 high at 5; each inset 5 (not top).
     let cols = [CGRect(x: 10, y: 10, width: 466, height: 890),
                 CGRect(x: 486, y: 10, width: 466, height: 890),
-                CGRect(x: 962, y: 10, width: 466, height: 890)]
+                CGRect(x: 962, y: 10, width: 468, height: 890)]
     let rows = [CGRect(x: 10, y: 607, width: 1420, height: 293),
                 CGRect(x: 10, y: 309, width: 1420, height: 293),
-                CGRect(x: 10, y: 11, width: 1420, height: 293)]
+                CGRect(x: 10, y: 10, width: 1420, height: 294)]
     #expect(presses(.nextThird, from: offAxis, 7, gap: 10, skipTop: true)
             == cols + rows + [cols[0]])
     #expect(presses(.previousThird, from: cols[0], 3, gap: 10, skipTop: true)
