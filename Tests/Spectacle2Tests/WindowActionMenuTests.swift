@@ -5,12 +5,22 @@ import SpectacleCore
 @testable import Spectacle2
 
 // The Shortcuts pane's sections and the Status Menu's groups both read WindowActionGroup.all, so
-// these orders are what the user sees in each.
+// these orders are what the user sees in each. The menu leaves out Next and Previous Third.
 
 private let expectedOrder: [WindowAction] = [
     .leftHalf, .rightHalf, .topHalf, .bottomHalf,
     .upperLeft, .upperRight, .lowerLeft, .lowerRight,
     .leftThird, .centerThird, .rightThird, .nextThird, .previousThird,
+    .leftTwoThirds, .centerTwoThirds, .rightTwoThirds,
+    .center, .fullscreen, .makeLarger, .makeSmaller,
+    .nextDisplay, .previousDisplay,
+    .undo, .redo,
+]
+
+private let expectedMenuOrder: [WindowAction] = [
+    .leftHalf, .rightHalf, .topHalf, .bottomHalf,
+    .upperLeft, .upperRight, .lowerLeft, .lowerRight,
+    .leftThird, .centerThird, .rightThird,
     .leftTwoThirds, .centerTwoThirds, .rightTwoThirds,
     .center, .fullscreen, .makeLarger, .makeSmaller,
     .nextDisplay, .previousDisplay,
@@ -69,19 +79,32 @@ private func item(_ action: WindowAction, in items: [NSMenuItem]) -> NSMenuItem 
 @Test func menuListsEveryActionOnceInGroupOrderWithSeparatorsOnlyBetweenGroups() {
     let items = menuItems()
 
-    #expect(items.compactMap { $0.representedObject as? WindowAction } == expectedOrder)
-    #expect(items.filter { !$0.isSeparatorItem }.map(\.title) == expectedOrder.map { L("app.action.\($0.rawValue)") })
+    #expect(items.compactMap { $0.representedObject as? WindowAction } == expectedMenuOrder)
+    #expect(items.filter { !$0.isSeparatorItem }.map(\.title) == expectedMenuOrder.map { L("app.action.\($0.rawValue)") })
     // One run per group and a trailing separator before the app items; an empty run would be a
     // leading or doubled separator.
     #expect(items.split(omittingEmptySubsequences: false, whereSeparator: \.isSeparatorItem).map(\.count)
-        == [4, 4, 5, 3, 4, 2, 2, 0])
+        == [4, 4, 3, 3, 4, 2, 2, 0])
 }
 
 @MainActor
-@Test func everyMenuItemHasAnImage() {
-    for item in menuItems() where !item.isSeparatorItem {
+@Test func nextAndPreviousThirdKeepTheirShortcutsButLeaveTheMenu() {
+    let menuActions = menuItems().compactMap { $0.representedObject as? WindowAction }
+    let thirds = WindowActionGroup.all.first { $0.titleKey == "app.shortcuts.section.thirds" }
+    for action in [WindowAction.nextThird, .previousThird] {
+        #expect(!menuActions.contains(action), "\(action) is in the menu")
+        #expect(thirds?.actions.contains(action) == true, "\(action) is not in the Shortcuts pane")
+        #expect(DefaultShortcuts.map[action] != nil, "\(action) lost its Shortcut")
+    }
+}
+
+@MainActor
+@Test func everyMenuItemHasItsOwnImage() {
+    let actions = menuItems().filter { !$0.isSeparatorItem }
+    for item in actions {
         #expect(item.image != nil, "no image for \(item.title)")
     }
+    #expect(Set(actions.compactMap { $0.image?.tiffRepresentation }).count == actions.count)
 }
 
 @MainActor
@@ -155,7 +178,7 @@ private func item(_ action: WindowAction, in items: [NSMenuItem]) -> NSMenuItem 
     #expect(!menu.autoenablesItems)
     menu.update()
     let actions = menu.items.filter { !$0.isSeparatorItem }
-    #expect(actions.count == WindowAction.allCases.count)
+    #expect(actions.count == expectedMenuOrder.count)
     #expect(actions.filter(\.isEnabled).isEmpty)
     if #available(macOS 27, *) {
         #expect(actions.allSatisfy { $0.value(forKey: "preferredImageVisibility") as? Int == 1 })
