@@ -21,16 +21,6 @@ private struct ShortcutsPaneView: View {
     @State private var conflicts: Set<WindowAction> = []
     @State private var search = ""
 
-    // Sidebar grouping mirrors Spectacle's preferences layout.
-    private let groups: [(String, [WindowAction])] = [
-        ("app.shortcuts.section.halves", [.leftHalf, .rightHalf, .topHalf, .bottomHalf]),
-        ("app.shortcuts.section.corners", [.upperLeft, .upperRight, .lowerLeft, .lowerRight]),
-        ("app.shortcuts.section.thirds", [.nextThird, .previousThird]),
-        ("app.shortcuts.section.sizing", [.center, .fullscreen, .makeLarger, .makeSmaller]),
-        ("app.shortcuts.section.displays", [.nextDisplay, .previousDisplay]),
-        ("app.shortcuts.section.history", [.undo, .redo]),
-    ]
-
     // Actions bound to a combo that another action is already using. Flagged independently of
     // the system-conflict set: Carbon only reports which registration lost the race (order-
     // dependent), so we detect the collision ourselves and flag *both* rows.
@@ -46,10 +36,10 @@ private struct ShortcutsPaneView: View {
                 TextField(L("app.shortcuts.search"), text: $search)
                     .textFieldStyle(.roundedBorder)
             }
-            ForEach(groups, id: \.0) { section in
-                let visible = section.1.filter(matchesSearch)
+            ForEach(WindowActionGroup.all, id: \.titleKey) { section in
+                let visible = section.actions.filter(matchesSearch)
                 if !visible.isEmpty {
-                    DragonSection(LocalizedStringKey(L(section.0))) {
+                    DragonSection(LocalizedStringKey(L(section.titleKey))) {
                         ForEach(visible, id: \.self) { action in
                             row(for: action)
                         }
