@@ -91,7 +91,17 @@ final class WindowActionController {
         // Skip the AX write when the frame wouldn't change (e.g. Fullscreen/Center pressed twice,
         // or a bounded resize already at its limit): the round-trip is pure overhead. History
         // semantics are untouched — the resolver has already recorded per its parity rules.
-        if case .move(let newRect) = outcome, newRect != current { ax.setFrame(newRect, of: window) }
+        guard case .move(let newRect) = outcome, newRect != current else { return }
+        ax.setFrame(newRect, of: window)
+        // An app may refuse the size (minimum sizes, terminal character cells): read the frame
+        // straight back, as the original did, and shift the window inside the visible frame of
+        // the screen it was sent to. History is untouched — this finishes the same action.
+        if let actual = ax.frame(of: window),
+           let fixed = BestEffortMove.correctedFrame(
+               requested: newRect, actual: actual,
+               visibleFrame: ScreenProvider.sourceVisibleFrame(for: newRect)) {
+            ax.setFrame(fixed, of: window)
+        }
     }
 
     /// Whether Accessibility permission is granted; when it isn't, asks macOS to show its
