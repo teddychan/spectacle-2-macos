@@ -6,8 +6,9 @@
 "app.general.showInMenuBar" = "在選單列中顯示";
 "app.general.showInMenuBarHint" = "隱藏選單列圖像。若啟動時已隱藏，將自動打開設定以便重新開啟。";
 "app.general.languageSection" = "語言";
-"app.whatsNew.summary" = "所有視窗動作現在都能在選單列選單中選擇，用滑鼠或觸控式軌跡板就能排列視窗。";
-"app.whatsNew.added1" = "按一下選單列中的 Spectacle 2 圖像，即可將最前方的視窗移到螢幕的一半、一角或三分之一，將其置中、填滿螢幕、調整大小、移到另一台顯示器，或還原一次移動。每個項目都會顯示其快速鍵，目前無法使用的項目會顯示為灰色。";
+"app.whatsNew.summary" = "新增六種排列方式，可將最前方的視窗放到螢幕固定的三分之一或三分之二。";
+"app.whatsNew.added1" = "左三分之一、中間三分之一、右三分之一、左三分之二、中間三分之二和右三分之二，可在選單列選單中選擇。若要用鍵盤操作，請在「設定 › 快速鍵」中為它們指定快速鍵。";
+"app.whatsNew.changed1" = "「下一個三分區」和「上一個三分區」已不在選單列選單中，它們的快速鍵仍可使用。";
 "app.uninstall.item.app" = "App 及其登入項目";
 "app.uninstall.item.settings" = "所有設定";
 "app.uninstall.item.state" = "已儲存的應用程式狀態";

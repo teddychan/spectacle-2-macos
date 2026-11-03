@@ -6,8 +6,9 @@
 "app.general.showInMenuBar" = "在菜单栏中显示";
 "app.general.showInMenuBarHint" = "隐藏菜单栏图标。如果启动时已隐藏，将自动打开设置以便重新开启。";
 "app.general.languageSection" = "语言";
-"app.whatsNew.summary" = "所有窗口操作现在都可以在菜单栏菜单中选择，用鼠标或触控板就能排列窗口。";
-"app.whatsNew.added1" = "点按菜单栏中的 Spectacle 2 图标，即可将最前面的窗口移到屏幕的一半、一角或三分之一，将其居中、铺满屏幕、调整大小、移到另一台显示器，或撤销一次移动。每个项目都会显示其快捷键，当前无法使用的项目会显示为灰色。";
+"app.whatsNew.summary" = "新增六种布局，可将最前面的窗口放到屏幕固定的三分之一或三分之二。";
+"app.whatsNew.added1" = "左三分之一、中间三分之一、右三分之一、左三分之二、中间三分之二和右三分之二，可在菜单栏菜单中选择。若要用键盘操作，请在“设置 › 快捷键”中为它们指定快捷键。";
+"app.whatsNew.changed1" = "“下一三分区”和“上一三分区”已不在菜单栏菜单中，它们的快捷键仍可使用。";
 "app.uninstall.item.app" = "App 及其登录项";
 "app.uninstall.item.settings" = "所有设置";
 "app.uninstall.item.state" = "已保存的应用程序状态";

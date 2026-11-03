@@ -6,8 +6,9 @@
 "app.general.showInMenuBar" = "Mostrar en la barra de menús";
 "app.general.showInMenuBarHint" = "Oculta el icono de la barra de menús. Si está oculto al iniciar, los Ajustes se abren automáticamente para que puedas volver a activarlo.";
 "app.general.languageSection" = "Idioma";
-"app.whatsNew.summary" = "Todas las acciones de ventana están ahora en el menú de la barra de menús, así que puedes colocar las ventanas con el ratón o el trackpad.";
-"app.whatsNew.added1" = "Haz clic en el icono de Spectacle 2 en la barra de menús para mover la ventana activa a una mitad, una esquina o un tercio, centrarla, hacer que ocupe toda la pantalla, cambiar su tamaño, enviarla a otra pantalla o deshacer un movimiento. Cada opción muestra su atajo, y las que no se pueden usar en ese momento aparecen atenuadas.";
+"app.whatsNew.summary" = "Seis posiciones nuevas colocan la ventana activa en un tercio o en dos tercios fijos de la pantalla.";
+"app.whatsNew.added1" = "Tercio izquierdo, Tercio central, Tercio derecho, Dos tercios izquierdos, Dos tercios centrales y Dos tercios derechos, en el menú de la barra de menús. Para usarlos con el teclado, asígnales un atajo en Ajustes › Atajos.";
+"app.whatsNew.changed1" = "Siguiente tercio y Tercio anterior ya no están en el menú de la barra de menús. Sus atajos siguen funcionando.";
 "app.uninstall.item.app" = "La app y su elemento de inicio";
 "app.uninstall.item.settings" = "Todos los ajustes";
 "app.uninstall.item.state" = "Estado guardado de la aplicación";

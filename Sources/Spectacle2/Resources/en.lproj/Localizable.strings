@@ -6,8 +6,9 @@
 "app.general.showInMenuBar" = "Show in menu bar";
 "app.general.showInMenuBarHint" = "Hide the menu-bar icon. If it's hidden at launch, Settings opens automatically so you can turn it back on.";
 "app.general.languageSection" = "Language";
-"app.whatsNew.summary" = "Every window action is now in the menu bar menu, so you can arrange windows with a mouse or trackpad.";
-"app.whatsNew.added1" = "Click the Spectacle 2 icon in the menu bar to move the front window to a half, a corner or a third, center it, make it fill the screen, resize it, send it to another display, or undo a move. Each item shows its shortcut, and items that can't be used right now are greyed out.";
+"app.whatsNew.summary" = "Six new layouts put the front window in a fixed third or two thirds of the screen.";
+"app.whatsNew.added1" = "Left Third, Center Third, Right Third, Left Two Thirds, Center Two Thirds and Right Two Thirds, in the menu bar menu. To use one from the keyboard, give it a shortcut in Settings › Shortcuts.";
+"app.whatsNew.changed1" = "Next Third and Previous Third are no longer in the menu bar menu. Their shortcuts still work.";
 "app.uninstall.item.app" = "The app and its login item";
 "app.uninstall.item.settings" = "All settings";
 "app.uninstall.item.state" = "Saved application state";
