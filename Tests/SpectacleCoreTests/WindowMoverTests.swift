@@ -18,14 +18,14 @@ private func move(_ window: SimulatedWindow, to requested: CGRect) {
     #expect(window.frame == rightHalf)
 }
 
-@Test func windowWithAMinimumSizeStopsAtTheFloorThenEndsOnScreen() {
+@Test func windowWithAMinimumSizeGivesUpEarlyThenEndsOnScreen() {
     let window = SimulatedWindow(CGRect(x: 300, y: 200, width: 500, height: 400),
                                  size: SimulatedWindow.minimum(CGSize(width: 1000, height: 0)))
     move(window, to: rightHalf)
-    // Standard write, 53 quantized steps (718 … 614), the centring write at x 580, then the
-    // best-effort write pulling the 1000-wide window back inside the right edge.
-    #expect(window.writes.count == 56)
-    #expect(window.writes.map(\.width).min() == 612)
+    // Standard write, 16 quantized steps (718 … 688) that the window ignores, the centring write
+    // at x 580, then the best-effort write pulling the 1000-wide window back inside the right edge.
+    #expect(window.writes.count == 19)
+    #expect(window.writes.map(\.width).min() == 688)
     #expect(window.frame == CGRect(x: 440, y: 0, width: 1000, height: 875))
 }
 
