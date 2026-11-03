@@ -36,4 +36,29 @@ public struct WindowGap: Equatable, Sendable {
         out.size.height += skipTop ? half : 2 * half
         return out
     }
+
+    /// The gapped window for a rect `r` tiled in working frame `f` (the visible frame inset by
+    /// `half` on every edge): `r` inset by `half`. With `skipTop`, a rect against the top of `f`
+    /// first grows up to the top of the screen, so only that edge loses its gap and stacked windows
+    /// stay a full gap apart (#63).
+    public static func tile(_ r: CGRect, in f: CGRect, half: CGFloat, skipTop: Bool) -> CGRect {
+        let top = skipTop && reachesTop(r, f, half)
+        var out = r
+        if top { out.size.height += half }
+        return inset(out, half: half, skipTop: top)
+    }
+
+    /// The exact inverse of `tile`: the rect a gapped window was tiled from.
+    public static func untile(_ r: CGRect, in f: CGRect, half: CGFloat, skipTop: Bool) -> CGRect {
+        let top = skipTop && reachesTop(r, f, half)
+        var out = outset(r, half: half, skipTop: top)
+        if top { out.size.height -= half }
+        return out
+    }
+
+    /// Whether a tiled rect is against the top of `f`, read alike before `tile` (top at `f.maxY`) and
+    /// after it (top at `f.maxY + half`). Any other tile ends at least `half` below `f.maxY` once gapped.
+    private static func reachesTop(_ r: CGRect, _ f: CGRect, _ half: CGFloat) -> Bool {
+        r.maxY > f.maxY - half
+    }
 }
