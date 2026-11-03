@@ -61,10 +61,11 @@ public enum WindowCalculator {
 
     // MARK: Halves
 
-    static func leftHalf(_ win: CGRect, _ f: CGRect) -> CGRect {
+    // A nil `win` has nothing to cycle from, so halves and corners return the plain tile (drag-snap).
+    static func leftHalf(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var base = f
         base.size.width = floor(f.width / 2.0)          // left-aligned at f.x
-        guard abs(win.midY - base.midY) <= 1.0 else { return base }
+        guard let win, abs(win.midY - base.midY) <= 1.0 else { return base }
         var twoThird = base; twoThird.size.width = floor(f.width * 2.0 / 3.0)
         if SpectacleGeometry.rectCenteredWithin(container: base, win: win) { return twoThird }
         if SpectacleGeometry.rectCenteredWithin(container: twoThird, win: win) {
@@ -73,11 +74,11 @@ public enum WindowCalculator {
         return base
     }
 
-    static func rightHalf(_ win: CGRect, _ f: CGRect) -> CGRect {
+    static func rightHalf(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var base = f
         base.size.width = floor(f.width / 2.0)
         base.origin.x += base.width
-        guard abs(win.midY - base.midY) <= 1.0 else { return base }
+        guard let win, abs(win.midY - base.midY) <= 1.0 else { return base }
         var twoThird = base
         twoThird.size.width = floor(f.width * 2.0 / 3.0)
         twoThird.origin.x = f.maxX - twoThird.width
@@ -91,11 +92,11 @@ public enum WindowCalculator {
         return base
     }
 
-    static func topHalf(_ win: CGRect, _ f: CGRect) -> CGRect {
+    static func topHalf(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var base = f
         base.size.height = floor(f.height / 2.0)
         base.origin.y = topY(f)
-        guard abs(win.midX - base.midX) <= 1.0 else { return base }
+        guard let win, abs(win.midX - base.midX) <= 1.0 else { return base }
         var twoThirds = base
         twoThirds.size.height = floor(f.height * 2.0 / 3.0)
         twoThirds.origin.y = f.maxY - twoThirds.height
@@ -109,10 +110,10 @@ public enum WindowCalculator {
         return base
     }
 
-    static func bottomHalf(_ win: CGRect, _ f: CGRect) -> CGRect {
+    static func bottomHalf(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var base = f
         base.size.height = floor(f.height / 2.0)          // bottom-aligned at f.y
-        guard abs(win.midX - base.midX) <= 1.0 else { return base }
+        guard let win, abs(win.midX - base.midX) <= 1.0 else { return base }
         var twoThirds = base; twoThirds.size.height = floor(f.height * 2.0 / 3.0)
         if SpectacleGeometry.rectCenteredWithin(container: base, win: win) { return twoThirds }
         if SpectacleGeometry.rectCenteredWithin(container: twoThirds, win: win) {
@@ -127,24 +128,24 @@ public enum WindowCalculator {
         f.origin.y + floor(f.height / 2.0) + f.height.truncatingRemainder(dividingBy: 2.0)
     }
 
-    static func upperLeft(_ win: CGRect, _ f: CGRect) -> CGRect {
+    static func upperLeft(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var q = f
         q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
         q.origin.y = topY(f)
         return cornerCycle(win, f, quarter: q, rightAligned: false)
     }
-    static func upperRight(_ win: CGRect, _ f: CGRect) -> CGRect {
+    static func upperRight(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var q = f
         q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
         q.origin.x += q.width; q.origin.y = topY(f)
         return cornerCycle(win, f, quarter: q, rightAligned: true)
     }
-    static func lowerLeft(_ win: CGRect, _ f: CGRect) -> CGRect {
+    static func lowerLeft(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var q = f
         q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
         return cornerCycle(win, f, quarter: q, rightAligned: false)
     }
-    static func lowerRight(_ win: CGRect, _ f: CGRect) -> CGRect {
+    static func lowerRight(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var q = f
         q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
         q.origin.x += q.width
@@ -152,8 +153,8 @@ public enum WindowCalculator {
     }
 
     /// Shared quarter → ⅔-width → ⅓-width cycle (height and vertical edge fixed).
-    private static func cornerCycle(_ win: CGRect, _ f: CGRect, quarter q: CGRect, rightAligned: Bool) -> CGRect {
-        guard abs(win.midY - q.midY) <= 1.0 else { return q }
+    private static func cornerCycle(_ win: CGRect?, _ f: CGRect, quarter q: CGRect, rightAligned: Bool) -> CGRect {
+        guard let win, abs(win.midY - q.midY) <= 1.0 else { return q }
         func widthVariant(_ w: CGFloat) -> CGRect {
             var r = q; r.size.width = w
             if rightAligned { r.origin.x = f.maxX - w }
