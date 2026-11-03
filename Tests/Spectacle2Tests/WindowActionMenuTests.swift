@@ -10,7 +10,8 @@ import SpectacleCore
 private let expectedOrder: [WindowAction] = [
     .leftHalf, .rightHalf, .topHalf, .bottomHalf,
     .upperLeft, .upperRight, .lowerLeft, .lowerRight,
-    .nextThird, .previousThird,
+    .leftThird, .centerThird, .rightThird, .nextThird, .previousThird,
+    .leftTwoThirds, .centerTwoThirds, .rightTwoThirds,
     .center, .fullscreen, .makeLarger, .makeSmaller,
     .nextDisplay, .previousDisplay,
     .undo, .redo,
@@ -19,7 +20,7 @@ private let expectedOrder: [WindowAction] = [
 @Test func shortcutsPaneSectionsListEveryActionOnceInPreferencesOrder() {
     #expect(WindowActionGroup.all.map(\.titleKey) == [
         "app.shortcuts.section.halves", "app.shortcuts.section.corners", "app.shortcuts.section.thirds",
-        "app.shortcuts.section.sizing", "app.shortcuts.section.displays", "app.shortcuts.section.history",
+        "app.shortcuts.section.twoThirds", "app.shortcuts.section.sizing", "app.shortcuts.section.displays", "app.shortcuts.section.history",
     ])
     #expect(WindowActionGroup.all.flatMap(\.actions) == expectedOrder)
     #expect(Set(expectedOrder) == Set(WindowAction.allCases))
@@ -73,7 +74,7 @@ private func item(_ action: WindowAction, in items: [NSMenuItem]) -> NSMenuItem 
     // One run per group and a trailing separator before the app items; an empty run would be a
     // leading or doubled separator.
     #expect(items.split(omittingEmptySubsequences: false, whereSeparator: \.isSeparatorItem).map(\.count)
-        == [4, 4, 2, 4, 2, 2, 0])
+        == [4, 4, 5, 3, 4, 2, 2, 0])
 }
 
 @MainActor

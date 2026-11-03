@@ -16,6 +16,7 @@
 "app.shortcuts.section.halves" = "半分";
 "app.shortcuts.section.corners" = "角";
 "app.shortcuts.section.thirds" = "3分割";
+"app.shortcuts.section.twoThirds" = "3分の2";
 "app.shortcuts.section.sizing" = "サイズと位置";
 "app.shortcuts.section.displays" = "ディスプレイ";
 "app.shortcuts.section.history" = "履歴";
@@ -32,6 +33,12 @@
 "app.action.lowerRight" = "右下";
 "app.action.nextThird" = "次の3分割位置";
 "app.action.previousThird" = "前の3分割位置";
+"app.action.leftThird" = "左3分の1";
+"app.action.centerThird" = "中央3分の1";
+"app.action.rightThird" = "右3分の1";
+"app.action.leftTwoThirds" = "左3分の2";
+"app.action.centerTwoThirds" = "中央3分の2";
+"app.action.rightTwoThirds" = "右3分の2";
 "app.action.nextDisplay" = "次のディスプレイ";
 "app.action.previousDisplay" = "前のディスプレイ";
 "app.action.makeLarger" = "ウインドウを大きくする";

@@ -16,6 +16,7 @@
 "app.shortcuts.section.halves" = "Moitiés";
 "app.shortcuts.section.corners" = "Coins";
 "app.shortcuts.section.thirds" = "Tiers";
+"app.shortcuts.section.twoThirds" = "Deux tiers";
 "app.shortcuts.section.sizing" = "Taille et position";
 "app.shortcuts.section.displays" = "Écrans";
 "app.shortcuts.section.history" = "Historique";
@@ -32,6 +33,12 @@
 "app.action.lowerRight" = "Coin inférieur droit";
 "app.action.nextThird" = "Tiers suivant";
 "app.action.previousThird" = "Tiers précédent";
+"app.action.leftThird" = "Tiers gauche";
+"app.action.centerThird" = "Tiers central";
+"app.action.rightThird" = "Tiers droit";
+"app.action.leftTwoThirds" = "Deux tiers à gauche";
+"app.action.centerTwoThirds" = "Deux tiers au centre";
+"app.action.rightTwoThirds" = "Deux tiers à droite";
 "app.action.nextDisplay" = "Écran suivant";
 "app.action.previousDisplay" = "Écran précédent";
 "app.action.makeLarger" = "Agrandir";

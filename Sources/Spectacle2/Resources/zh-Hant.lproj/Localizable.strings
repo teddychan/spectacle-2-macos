@@ -16,6 +16,7 @@
 "app.shortcuts.section.halves" = "半螢幕";
 "app.shortcuts.section.corners" = "角落";
 "app.shortcuts.section.thirds" = "三分割";
+"app.shortcuts.section.twoThirds" = "三分之二";
 "app.shortcuts.section.sizing" = "大小與位置";
 "app.shortcuts.section.displays" = "顯示器";
 "app.shortcuts.section.history" = "歷史記錄";
@@ -32,6 +33,12 @@
 "app.action.lowerRight" = "右下角";
 "app.action.nextThird" = "下一個三分區";
 "app.action.previousThird" = "上一個三分區";
+"app.action.leftThird" = "左三分之一";
+"app.action.centerThird" = "中間三分之一";
+"app.action.rightThird" = "右三分之一";
+"app.action.leftTwoThirds" = "左三分之二";
+"app.action.centerTwoThirds" = "中間三分之二";
+"app.action.rightTwoThirds" = "右三分之二";
 "app.action.nextDisplay" = "下一個顯示器";
 "app.action.previousDisplay" = "上一個顯示器";
 "app.action.makeLarger" = "放大視窗";

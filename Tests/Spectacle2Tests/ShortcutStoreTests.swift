@@ -5,20 +5,48 @@ import SpectacleCore
 @testable import Spectacle2
 
 // ShortcutStore.load() merges DefaultShortcuts.map into a persisted map so actions added in a
-// later app version still get a default binding, while a shortcut the user cleared stays
-// cleared. Each test uses its own UserDefaults suite
+// later app version still get their default binding, if they have one, while a shortcut the user
+// cleared stays cleared. Each test uses its own UserDefaults suite
 // (never the app's real suiteName) and removes it afterward so reruns start clean.
 
+private let fixedThirds: [WindowAction] = [
+    .leftThird, .centerThird, .rightThird, .leftTwoThirds, .centerTwoThirds, .rightTwoThirds,
+]
+
 @MainActor
-@Test func loadWithNothingPersistedCoversEveryAction() {
-    let suiteName = "com.dragonapp.spectacle-2.tests.loadWithNothingPersistedCoversEveryAction"
+@Test func loadWithNothingPersistedGivesTheDefaultsAndLeavesTheFixedThirdsUnbound() {
+    let suiteName = "com.dragonapp.spectacle-2.tests.loadWithNothingPersistedGivesTheDefaults"
     defer { UserDefaults(suiteName: suiteName)?.removePersistentDomain(forName: suiteName) }
 
     let map = ShortcutStore(suiteName: suiteName).load()
 
-    for action in WindowAction.allCases {
-        #expect(map[action] != nil, "missing binding for \(action)")
+    #expect(map == DefaultShortcuts.map)
+    #expect(map[.nextThird] != nil && map[.previousThird] != nil)
+    for action in fixedThirds {
+        #expect(map[action] == nil, "\(action) is bound")
     }
+}
+
+// A map saved before the fixed thirds existed has no entry for them, so they load unbound.
+@MainActor
+@Test func loadLeavesTheFixedThirdsUnboundForAMapSavedBeforeThem() {
+    let suiteName = "com.dragonapp.spectacle-2.tests.loadLeavesTheFixedThirdsUnboundForAMapSavedBeforeThem"
+    defer { UserDefaults(suiteName: suiteName)?.removePersistentDomain(forName: suiteName) }
+
+    var saved: [String: Shortcut?] = [:]
+    for action in WindowAction.allCases where !fixedThirds.contains(action) {
+        saved[action.rawValue] = .some(DefaultShortcuts.map[action])
+    }
+    saved["leftHalf"] = .some(nil)
+    UserDefaults(suiteName: suiteName)?.set(try! JSONEncoder().encode(saved), forKey: "shortcuts.v1")
+
+    let map = ShortcutStore(suiteName: suiteName).load()
+
+    for action in fixedThirds {
+        #expect(map[action] == nil, "\(action) is bound")
+    }
+    #expect(map[.leftHalf] == nil)
+    #expect(map[.nextThird] == DefaultShortcuts.map[.nextThird])
 }
 
 @MainActor
@@ -37,7 +65,7 @@ import SpectacleCore
     UserDefaults(suiteName: suiteName)?.set(try! JSONEncoder().encode(partial), forKey: "settings.v1")
     let map = ShortcutStore(suiteName: suiteName).load()
 
-    for action in WindowAction.allCases {
+    for action in DefaultShortcuts.map.keys {
         #expect(map[action] != nil, "missing binding for \(action)")
     }
     #expect(map[.center] == DefaultShortcuts.map[.center])       // omitted -> filled from defaults

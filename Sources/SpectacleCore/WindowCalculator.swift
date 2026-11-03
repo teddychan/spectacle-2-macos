@@ -53,6 +53,12 @@ public enum WindowCalculator {
         case .makeSmaller: return WindowSizeAdjuster.resize(win, vf, offset: -30)
         case .nextThird:     return g(third(tiled, frame, step: +1))
         case .previousThird: return g(third(tiled, frame, step: -1))
+        case .leftThird:       return g(thirds(frame)[0])
+        case .centerThird:     return g(thirds(frame)[1])
+        case .rightThird:      return g(thirds(frame)[2])
+        case .leftTwoThirds:   return g(leftTwoThirds(frame))
+        case .centerTwoThirds: return g(centerTwoThirds(frame))
+        case .rightTwoThirds:  return g(rightTwoThirds(frame))
         case .nextDisplay, .previousDisplay:
             return SpectacleGeometry.rectFitsWithin(win: win, screen: vf) ? center(win, vf) : g(frame)
         case .undo, .redo: return nil
@@ -188,5 +194,25 @@ public enum WindowCalculator {
             return regions[j]
         }
         return regions[0]
+    }
+
+    // MARK: Fixed thirds — always columns, the same tile on every press
+
+    static func leftTwoThirds(_ f: CGRect) -> CGRect {
+        let cols = thirds(f)
+        return cols[0].union(cols[1])
+    }
+
+    static func rightTwoThirds(_ f: CGRect) -> CGRect {
+        let cols = thirds(f)
+        return cols[1].union(cols[2])
+    }
+
+    /// Two whole columns wide, as Left Two Thirds is (Right Two Thirds also takes the leftover
+    /// points), and centered in the frame.
+    static func centerTwoThirds(_ f: CGRect) -> CGRect {
+        var r = leftTwoThirds(f)
+        r.origin.x = f.minX + floor((f.width - r.width) / 2.0)
+        return r
     }
 }
