@@ -34,7 +34,7 @@ extension AccessibilityElement: WindowAccessing {
 /// Glues hot keys → geometry → AX, and owns undo/redo history.
 /// Invariant: only geometry moves call `history.record`; undo/redo mutate history themselves.
 @MainActor
-final class WindowActionController {
+final class WindowActionController: NSObject {
     private var history = WindowHistory()
     private let ax: any WindowAccessing
     private let makeHotKeys: (@escaping @Sendable (WindowAction) -> Void) -> any HotKeyRegistering
@@ -53,6 +53,7 @@ final class WindowActionController {
          windows: any WindowAccessing = AccessibilityElement()) {
         self.makeHotKeys = makeHotKeys
         self.ax = windows
+        super.init()
     }
 
     /// Starts the engine, returning the actions whose global hot key could not be registered
@@ -91,6 +92,9 @@ final class WindowActionController {
             _ = hotKeys?.register(currentMap)
         }
     }
+
+    /// Whether the frontmost app has a focused window for a Window Action to move.
+    var hasTargetWindow: Bool { ax.focusedWindow() != nil }
 
     func perform(_ action: WindowAction) {
         // Without Accessibility permission every action is a silent no-op. Trigger the system
