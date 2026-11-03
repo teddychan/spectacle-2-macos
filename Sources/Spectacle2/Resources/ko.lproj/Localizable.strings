@@ -16,6 +16,7 @@
 "app.shortcuts.section.halves" = "반쪽 화면";
 "app.shortcuts.section.corners" = "모서리";
 "app.shortcuts.section.thirds" = "3분할";
+"app.shortcuts.section.twoThirds" = "3분의 2";
 "app.shortcuts.section.sizing" = "크기 및 위치";
 "app.shortcuts.section.displays" = "디스플레이";
 "app.shortcuts.section.history" = "기록";
@@ -32,6 +33,12 @@
 "app.action.lowerRight" = "오른쪽 아래";
 "app.action.nextThird" = "다음 3분할 영역";
 "app.action.previousThird" = "이전 3분할 영역";
+"app.action.leftThird" = "왼쪽 3분의 1";
+"app.action.centerThird" = "가운데 3분의 1";
+"app.action.rightThird" = "오른쪽 3분의 1";
+"app.action.leftTwoThirds" = "왼쪽 3분의 2";
+"app.action.centerTwoThirds" = "가운데 3분의 2";
+"app.action.rightTwoThirds" = "오른쪽 3분의 2";
 "app.action.nextDisplay" = "다음 디스플레이";
 "app.action.previousDisplay" = "이전 디스플레이";
 "app.action.makeLarger" = "창 크게 하기";

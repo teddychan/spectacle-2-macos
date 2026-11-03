@@ -1,12 +1,12 @@
 import Testing
 @testable import SpectacleCore
 
-@Test func hasEighteenActions() {
-    #expect(WindowAction.allCases.count == 18)
+@Test func hasTwentyFourActions() {
+    #expect(WindowAction.allCases.count == 24)
 }
 
 @Test func geometryActionsExcludeHistory() {
     #expect(!WindowAction.geometryActions.contains(.undo))
     #expect(!WindowAction.geometryActions.contains(.redo))
-    #expect(WindowAction.geometryActions.count == 16)
+    #expect(WindowAction.geometryActions.count == 22)
 }

@@ -3,6 +3,8 @@ public enum WindowAction: String, CaseIterable, Codable, Sendable {
     case leftHalf, rightHalf, topHalf, bottomHalf
     case upperLeft, upperRight, lowerLeft, lowerRight
     case nextThird, previousThird
+    case leftThird, centerThird, rightThird
+    case leftTwoThirds, centerTwoThirds, rightTwoThirds
     case nextDisplay, previousDisplay
     case makeLarger, makeSmaller
     case undo, redo

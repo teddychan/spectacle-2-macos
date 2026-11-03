@@ -14,7 +14,9 @@ struct WindowActionGroup {
         WindowActionGroup(titleKey: "app.shortcuts.section.corners",
                           actions: [.upperLeft, .upperRight, .lowerLeft, .lowerRight]),
         WindowActionGroup(titleKey: "app.shortcuts.section.thirds",
-                          actions: [.nextThird, .previousThird]),
+                          actions: [.leftThird, .centerThird, .rightThird, .nextThird, .previousThird]),
+        WindowActionGroup(titleKey: "app.shortcuts.section.twoThirds",
+                          actions: [.leftTwoThirds, .centerTwoThirds, .rightTwoThirds]),
         WindowActionGroup(titleKey: "app.shortcuts.section.sizing",
                           actions: [.center, .fullscreen, .makeLarger, .makeSmaller]),
         WindowActionGroup(titleKey: "app.shortcuts.section.displays",
@@ -99,6 +101,12 @@ extension WindowAction {
         case .lowerRight: "rectangle.inset.bottomright.filled"
         case .previousThird: "rectangle.leadingthird.inset.filled"
         case .nextThird: "rectangle.trailingthird.inset.filled"
+        case .leftThird: "rectangle.leadingthird.inset.filled"
+        case .centerThird: "rectangle.portrait.center.inset.filled"
+        case .rightThird: "rectangle.trailingthird.inset.filled"
+        case .leftTwoThirds: "rectangle.leadinghalf.inset.filled"
+        case .centerTwoThirds: "inset.filled.leftthird.middlethird.rightthird.rectangle"
+        case .rightTwoThirds: "rectangle.trailinghalf.inset.filled"
         case .center: "rectangle.center.inset.filled"
         case .fullscreen: "rectangle.inset.filled"
         case .makeLarger: "arrow.up.left.and.arrow.down.right"

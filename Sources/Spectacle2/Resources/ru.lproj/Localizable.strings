@@ -16,6 +16,7 @@
 "app.shortcuts.section.halves" = "Половины";
 "app.shortcuts.section.corners" = "Углы";
 "app.shortcuts.section.thirds" = "Трети";
+"app.shortcuts.section.twoThirds" = "Две трети";
 "app.shortcuts.section.sizing" = "Размер и положение";
 "app.shortcuts.section.displays" = "Дисплеи";
 "app.shortcuts.section.history" = "История";
@@ -32,6 +33,12 @@
 "app.action.lowerRight" = "Правый нижний угол";
 "app.action.nextThird" = "Следующая треть";
 "app.action.previousThird" = "Предыдущая треть";
+"app.action.leftThird" = "Левая треть";
+"app.action.centerThird" = "Средняя треть";
+"app.action.rightThird" = "Правая треть";
+"app.action.leftTwoThirds" = "Левые две трети";
+"app.action.centerTwoThirds" = "Средние две трети";
+"app.action.rightTwoThirds" = "Правые две трети";
 "app.action.nextDisplay" = "Следующий дисплей";
 "app.action.previousDisplay" = "Предыдущий дисплей";
 "app.action.makeLarger" = "Увеличить";

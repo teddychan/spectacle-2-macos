@@ -16,6 +16,7 @@
 "app.shortcuts.section.halves" = "Halves";
 "app.shortcuts.section.corners" = "Corners";
 "app.shortcuts.section.thirds" = "Thirds";
+"app.shortcuts.section.twoThirds" = "Two Thirds";
 "app.shortcuts.section.sizing" = "Size & Position";
 "app.shortcuts.section.displays" = "Displays";
 "app.shortcuts.section.history" = "History";
@@ -32,6 +33,12 @@
 "app.action.lowerRight" = "Lower Right";
 "app.action.nextThird" = "Next Third";
 "app.action.previousThird" = "Previous Third";
+"app.action.leftThird" = "Left Third";
+"app.action.centerThird" = "Center Third";
+"app.action.rightThird" = "Right Third";
+"app.action.leftTwoThirds" = "Left Two Thirds";
+"app.action.centerTwoThirds" = "Center Two Thirds";
+"app.action.rightTwoThirds" = "Right Two Thirds";
 "app.action.nextDisplay" = "Next Display";
 "app.action.previousDisplay" = "Previous Display";
 "app.action.makeLarger" = "Make Larger";

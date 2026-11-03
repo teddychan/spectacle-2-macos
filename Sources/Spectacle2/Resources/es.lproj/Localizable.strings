@@ -16,6 +16,7 @@
 "app.shortcuts.section.halves" = "Mitades";
 "app.shortcuts.section.corners" = "Esquinas";
 "app.shortcuts.section.thirds" = "Tercios";
+"app.shortcuts.section.twoThirds" = "Dos tercios";
 "app.shortcuts.section.sizing" = "Tamaño y posición";
 "app.shortcuts.section.displays" = "Pantallas";
 "app.shortcuts.section.history" = "Historial";
@@ -32,6 +33,12 @@
 "app.action.lowerRight" = "Esquina inferior derecha";
 "app.action.nextThird" = "Siguiente tercio";
 "app.action.previousThird" = "Tercio anterior";
+"app.action.leftThird" = "Tercio izquierdo";
+"app.action.centerThird" = "Tercio central";
+"app.action.rightThird" = "Tercio derecho";
+"app.action.leftTwoThirds" = "Dos tercios izquierdos";
+"app.action.centerTwoThirds" = "Dos tercios centrales";
+"app.action.rightTwoThirds" = "Dos tercios derechos";
 "app.action.nextDisplay" = "Siguiente pantalla";
 "app.action.previousDisplay" = "Pantalla anterior";
 "app.action.makeLarger" = "Agrandar ventana";
