@@ -3,17 +3,52 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [2.6.0] - 2026-11-03
+
+Russian, plus fixes for settings that could reset, shortcuts that could stop working, and windows
+that could end up partly off screen.
 
 ### Added
 - **Russian.** Every app-owned string is translated, and the language picker offers Русский.
   The terminology follows the translation @shendrykau contributed in teddychan/ice-2#132, and
   matches DragonKit's own Russian table, so the kit's panes and the app's read as one.
 
+### Fixed
+- **General settings and shortcuts no longer overwrite each other** (#53). Both were stored under
+  `settings.v1` in the same suite, so whichever store loaded second could not decode the other's
+  value and moved it aside to `settings.v1.unreadable`. Shortcuts now have their own key,
+  `shortcuts.v1`, and a migration at launch recovers both values from any state an earlier
+  version left behind.
+- **A shortcut cleared with Delete stays cleared** (#56). A cleared shortcut is now stored as
+  cleared, and only actions the stored map has never seen get their default. A shortcut cleared in
+  an earlier version comes back once after the upgrade, because the old format never recorded it.
+- **Shortcuts no longer stay off after About or Check for Updates is chosen while recording**
+  (#54). The recorder now ends recording when it leaves its window.
+- **Restore Defaults while recording no longer turns shortcuts back on early** (#55). A shortcut
+  change made while recording is applied when recording ends.
+- **Halves and corners cycle again when the top-edge gap is skipped** (#57).
+- **Stacked windows keep a full gap when the top-edge gap is skipped** (#63), for drag-to-snap as
+  well (#67). Only the edge that touches the top of the screen skips its gap now.
+- **The margin around tiled windows is the same on every side.** Thirds (#64), snapped thirds
+  (#68), and halves and corners (#70) give a leftover point to a window rather than to the
+  margin, and the ⅔ and ⅓ steps line up with the thirds columns.
+- **Windows stay on screen.** Make Larger and Make Smaller (#58), Center on a window larger than
+  the screen (#61), and a window whose app refuses the requested size (#62, and #74 for
+  drag-to-snap) are moved back inside the visible frame.
+
 ### Changed
+- **A window that comes out larger than its tile is shrunk to fit** (#75), as the original
+  Spectacle's quantized mover did: 2 pt at a time, never below 85% of the tile. Terminal windows
+  tiled side by side no longer overlap. A side that ignores 32 pt of shrinking is left alone, so a
+  window held at a minimum size costs a few Accessibility calls instead of dozens.
+- **Drag-to-snap uses the keyboard's tiles**, so a snapped half equals the Left Half shortcut.
+- **Some tile sizes move by 1 or 2 pt** on screens whose size doesn't divide evenly by 2 or 3.
+  On a 1440×900 display with the menu bar (1440×875), the bottom half goes from 437 to 438 pt
+  tall. A window that can't be resized is now centred in its tile, as the original did, instead of
+  sitting at the tile's top-left corner.
 - **DragonKit 4.1.2 → 4.2.0**, which adds `DragonLanguage.ru`. Spectacle 2 calls a bare
   `LanguagePicker()`, so the picker lists every kit language, and CONFORMANCE §R13 requires an
-  app doing that to ship each one — Russian included.
+  app doing that to ship each one, Russian included.
 
 ## [2.5.7] - 2026-08-20
 
