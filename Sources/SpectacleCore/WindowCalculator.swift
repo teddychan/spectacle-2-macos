@@ -62,33 +62,27 @@ public enum WindowCalculator {
     // MARK: Halves
 
     // A nil `win` has nothing to cycle from, so halves and corners return the plain tile (drag-snap).
+    // The ⅔ and ⅓ steps are made of the thirds columns and rows, so they line up with them (#70).
     static func leftHalf(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var base = f
         base.size.width = floor(f.width / 2.0)          // left-aligned at f.x
         guard let win, abs(win.midY - base.midY) <= 1.0 else { return base }
-        var twoThird = base; twoThird.size.width = floor(f.width * 2.0 / 3.0)
+        let cols = thirds(f)
+        let twoThird = cols[0].union(cols[1])
         if SpectacleGeometry.rectCenteredWithin(container: base, win: win) { return twoThird }
-        if SpectacleGeometry.rectCenteredWithin(container: twoThird, win: win) {
-            var oneThird = base; oneThird.size.width = floor(f.width / 3.0); return oneThird
-        }
+        if SpectacleGeometry.rectCenteredWithin(container: twoThird, win: win) { return cols[0] }
         return base
     }
 
     static func rightHalf(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var base = f
-        base.size.width = floor(f.width / 2.0)
-        base.origin.x += base.width
+        base.origin.x += floor(f.width / 2.0)
+        base.size.width = f.maxX - base.minX              // the odd point goes to the right half (#70)
         guard let win, abs(win.midY - base.midY) <= 1.0 else { return base }
-        var twoThird = base
-        twoThird.size.width = floor(f.width * 2.0 / 3.0)
-        twoThird.origin.x = f.maxX - twoThird.width
+        let cols = thirds(f)
+        let twoThird = cols[1].union(cols[2])
         if SpectacleGeometry.rectCenteredWithin(container: base, win: win) { return twoThird }
-        if SpectacleGeometry.rectCenteredWithin(container: twoThird, win: win) {
-            var oneThird = base
-            oneThird.size.width = floor(f.width / 3.0)
-            oneThird.origin.x = f.maxX - oneThird.width
-            return oneThird
-        }
+        if SpectacleGeometry.rectCenteredWithin(container: twoThird, win: win) { return cols[2] }
         return base
     }
 
@@ -97,73 +91,58 @@ public enum WindowCalculator {
         base.size.height = floor(f.height / 2.0)
         base.origin.y = topY(f)
         guard let win, abs(win.midX - base.midX) <= 1.0 else { return base }
-        var twoThirds = base
-        twoThirds.size.height = floor(f.height * 2.0 / 3.0)
-        twoThirds.origin.y = f.maxY - twoThirds.height
+        let rows = Array(thirds(f)[3...])                 // top, middle, bottom
+        let twoThirds = rows[0].union(rows[1])
         if SpectacleGeometry.rectCenteredWithin(container: base, win: win) { return twoThirds }
-        if SpectacleGeometry.rectCenteredWithin(container: twoThirds, win: win) {
-            var oneThird = base
-            oneThird.size.height = floor(f.height / 3.0)
-            oneThird.origin.y = f.maxY - oneThird.height
-            return oneThird
-        }
+        if SpectacleGeometry.rectCenteredWithin(container: twoThirds, win: win) { return rows[0] }
         return base
     }
 
     static func bottomHalf(_ win: CGRect?, _ f: CGRect) -> CGRect {
         var base = f
-        base.size.height = floor(f.height / 2.0)          // bottom-aligned at f.y
+        base.size.height = topY(f) - f.minY               // bottom-aligned at f.y, up to the top half
         guard let win, abs(win.midX - base.midX) <= 1.0 else { return base }
-        var twoThirds = base; twoThirds.size.height = floor(f.height * 2.0 / 3.0)
+        let rows = Array(thirds(f)[3...])                 // top, middle, bottom
+        let twoThirds = rows[1].union(rows[2])
         if SpectacleGeometry.rectCenteredWithin(container: base, win: win) { return twoThirds }
-        if SpectacleGeometry.rectCenteredWithin(container: twoThirds, win: win) {
-            var oneThird = base; oneThird.size.height = floor(f.height / 3.0); return oneThird
-        }
+        if SpectacleGeometry.rectCenteredWithin(container: twoThirds, win: win) { return rows[2] }
         return base
     }
 
     // MARK: Corners
 
+    /// Where the top half starts. The bottom half runs up to it, so an odd point goes to the bottom
+    /// half, as the remainder goes to the bottom thirds row (#70).
     private static func topY(_ f: CGRect) -> CGFloat {
         f.origin.y + floor(f.height / 2.0) + f.height.truncatingRemainder(dividingBy: 2.0)
     }
 
+    // Each quarter is where two halves overlap, so it shares their edges and odd points.
     static func upperLeft(_ win: CGRect?, _ f: CGRect) -> CGRect {
-        var q = f
-        q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
-        q.origin.y = topY(f)
-        return cornerCycle(win, f, quarter: q, rightAligned: false)
+        cornerCycle(win, f, quarter: leftHalf(nil, f).intersection(topHalf(nil, f)), rightAligned: false)
     }
     static func upperRight(_ win: CGRect?, _ f: CGRect) -> CGRect {
-        var q = f
-        q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
-        q.origin.x += q.width; q.origin.y = topY(f)
-        return cornerCycle(win, f, quarter: q, rightAligned: true)
+        cornerCycle(win, f, quarter: rightHalf(nil, f).intersection(topHalf(nil, f)), rightAligned: true)
     }
     static func lowerLeft(_ win: CGRect?, _ f: CGRect) -> CGRect {
-        var q = f
-        q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
-        return cornerCycle(win, f, quarter: q, rightAligned: false)
+        cornerCycle(win, f, quarter: leftHalf(nil, f).intersection(bottomHalf(nil, f)), rightAligned: false)
     }
     static func lowerRight(_ win: CGRect?, _ f: CGRect) -> CGRect {
-        var q = f
-        q.size.width = floor(f.width / 2.0); q.size.height = floor(f.height / 2.0)
-        q.origin.x += q.width
-        return cornerCycle(win, f, quarter: q, rightAligned: true)
+        cornerCycle(win, f, quarter: rightHalf(nil, f).intersection(bottomHalf(nil, f)), rightAligned: true)
     }
 
     /// Shared quarter → ⅔-width → ⅓-width cycle (height and vertical edge fixed).
     private static func cornerCycle(_ win: CGRect?, _ f: CGRect, quarter q: CGRect, rightAligned: Bool) -> CGRect {
         guard let win, abs(win.midY - q.midY) <= 1.0 else { return q }
-        func widthVariant(_ w: CGFloat) -> CGRect {
-            var r = q; r.size.width = w
-            if rightAligned { r.origin.x = f.maxX - w }
+        let cols = thirds(f)
+        func across(_ c: CGRect) -> CGRect {
+            var r = q; r.origin.x = c.minX; r.size.width = c.width
             return r
         }
-        let twoThird = widthVariant(floor(f.width * 2.0 / 3.0))
+        let twoThird = across(rightAligned ? cols[1].union(cols[2]) : cols[0].union(cols[1]))
         if SpectacleGeometry.rectCenteredWithin(container: q, win: win) { return twoThird }
         if SpectacleGeometry.rectCenteredWithin(container: twoThird, win: win) {
-            return widthVariant(floor(f.width / 3.0))
+            return across(rightAligned ? cols[2] : cols[0])
         }
         return q
     }

@@ -12,7 +12,8 @@ public enum SnapTarget: Equatable, Sendable {
 public enum SnapGeometry {
     /// The Cocoa (bottom-left origin) rect for `target` within `visibleFrame`, with `gap` applied.
     /// Built like `WindowCalculator`'s plain tiles, so a snapped half equals a keyboard half (#67).
-    /// Two-thirds span two of the keyboard's columns, so every inner gap stays `gap.size` (#68).
+    /// Two-thirds span two of the keyboard's columns, so every inner gap stays `gap.size` (#68), and
+    /// equal the ⅔ step of Left Half and Right Half (#70).
     public static func rect(_ target: SnapTarget, visibleFrame vf: CGRect, gap: WindowGap) -> CGRect {
         let half = gap.size / 2
         let f = WindowGap.inset(vf, half: half, skipTop: false)   // working frame, as the keyboard's

@@ -96,21 +96,23 @@ private func presses(_ a: WindowAction, from start: CGRect, _ n: Int, screen: CG
 private let offAxis = CGRect(x: 0, y: 0, width: 10, height: 10)
 
 @Test func gapSkipTopLeftHalfCycles() {
-    // gap 10, skipTop → working frame (5,5,1430,890); ½ = 715, ⅔ = 953, ⅓ = 476 wide, each then
-    // inset 5 on left/right/bottom and grown to the top of the screen, so the window keeps maxY = 900.
+    // gap 10, skipTop → working frame (5,5,1430,890); ½ = 715, ⅔ = 2 × 476 = 952 (two thirds columns),
+    // ⅓ = 476 wide, each then inset 5 on left/right/bottom and grown to the top of the screen, so the
+    // window keeps maxY = 900.
     #expect(presses(.leftHalf, from: offAxis, 4, gap: 10, skipTop: true) == [
         CGRect(x: 10, y: 10, width: 705, height: 890),
-        CGRect(x: 10, y: 10, width: 943, height: 890),
+        CGRect(x: 10, y: 10, width: 942, height: 890),
         CGRect(x: 10, y: 10, width: 466, height: 890),
         CGRect(x: 10, y: 10, width: 705, height: 890),
     ])
 }
 
 @Test func gapSkipTopTopHalfCycles() {
-    // Height cycle: ½ = 445 (bottom at 5 + 445 = 450), ⅔ = 593, ⅓ = 296, all top-aligned at 900.
+    // Height cycle: ½ = 445 (bottom at 5 + 445 = 450), ⅔ = 2 × 296 = 592 (two thirds rows), ⅓ = 296,
+    // all top-aligned at 900.
     #expect(presses(.topHalf, from: offAxis, 4, gap: 10, skipTop: true) == [
         CGRect(x: 10, y: 455, width: 1420, height: 445),
-        CGRect(x: 10, y: 307, width: 1420, height: 593),
+        CGRect(x: 10, y: 308, width: 1420, height: 592),
         CGRect(x: 10, y: 604, width: 1420, height: 296),
         CGRect(x: 10, y: 455, width: 1420, height: 445),
     ])
@@ -119,17 +121,18 @@ private let offAxis = CGRect(x: 0, y: 0, width: 10, height: 10)
 @Test func gapSkipTopCornersCycle() {
     #expect(presses(.upperLeft, from: offAxis, 4, gap: 10, skipTop: true) == [
         CGRect(x: 10, y: 455, width: 705, height: 445),
-        CGRect(x: 10, y: 455, width: 943, height: 445),
+        CGRect(x: 10, y: 455, width: 942, height: 445),
         CGRect(x: 10, y: 455, width: 466, height: 445),
         CGRect(x: 10, y: 455, width: 705, height: 445),
     ])
-    // Right-aligned to the working frame's maxX 1435: ⅔ at 1435 - 953, ⅓ at 1435 - 476. Not at the
-    // top, so the top edge keeps its gap and ends at 450 - 5 = 445, 10 below the upper corners.
+    // On the thirds columns at x = 481 and 957, which run to the working frame's maxX 1435: ⅔ = 954
+    // and ⅓ = 478 wide. Not at the top, so the top edge keeps its gap and ends at 450 - 5 = 445, 10
+    // below the upper corners.
     #expect(presses(.lowerRight, from: CGRect(x: 0, y: 890, width: 10, height: 10), 4,
                     gap: 10, skipTop: true) == [
         CGRect(x: 725, y: 10, width: 705, height: 435),
-        CGRect(x: 487, y: 10, width: 943, height: 435),
-        CGRect(x: 964, y: 10, width: 466, height: 435),
+        CGRect(x: 486, y: 10, width: 944, height: 435),
+        CGRect(x: 962, y: 10, width: 468, height: 435),
         CGRect(x: 725, y: 10, width: 705, height: 435),
     ])
 }
@@ -166,7 +169,7 @@ private let offAxis = CGRect(x: 0, y: 0, width: 10, height: 10)
     }
     #expect(got == [
         CGRect(x: 1450, y: 10, width: 705, height: 865),
-        CGRect(x: 1450, y: 10, width: 943, height: 865),
+        CGRect(x: 1450, y: 10, width: 942, height: 865),
         CGRect(x: 1450, y: 10, width: 466, height: 865),
         CGRect(x: 1450, y: 10, width: 705, height: 865),
     ])
