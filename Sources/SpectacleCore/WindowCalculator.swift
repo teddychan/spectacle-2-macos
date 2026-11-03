@@ -30,13 +30,14 @@ public enum WindowCalculator {
         let vf = input.destinationVisibleFrame
         let half = input.gap / 2
         let skip = input.skipGapTopEdge
-        // Working frame: the visible frame shrunk by half the gap (top optional).
-        let frame = WindowGap.inset(vf, half: half, skipTop: skip)
+        // Working frame: the visible frame shrunk by half the gap on every edge. Skipping the top
+        // gap does not change the layout, only how far the top tiles reach (#63).
+        let frame = WindowGap.inset(vf, half: half, skipTop: false)
         // Gap-applicable results are shrunk by the other half; size-preserving actions are not.
-        func g(_ r: CGRect) -> CGRect { WindowGap.inset(r, half: half, skipTop: skip) }
+        func g(_ r: CGRect) -> CGRect { WindowGap.tile(r, in: frame, half: half, skipTop: skip) }
         // The cycling checks compare the window with un-gapped candidates, so undo `g` first. With
-        // skipTop the inset is lopsided and moves the center off the candidate's by gap/4 (#57).
-        let tiled = WindowGap.outset(win, half: half, skipTop: skip)
+        // skipTop a top tile is lopsided and its center sits off the candidate's (#57).
+        let tiled = WindowGap.untile(win, in: frame, half: half, skipTop: skip)
         switch action {
         case .leftHalf:   return g(leftHalf(tiled, frame))
         case .rightHalf:  return g(rightHalf(tiled, frame))
