@@ -147,10 +147,16 @@ private func item(_ action: WindowAction, in items: [NSMenuItem]) -> NSMenuItem 
     #expect(!controller.hasTargetWindow)
 }
 
-@Test func menuItemImagesStayVisibleOnMacOS27() {
-    let item = NSMenuItem(title: "Left Half", action: nil, keyEquivalent: "")
-    item.keepImageVisible()
+@MainActor @Test func statusMenuKeepsDisabledActionsDisabledAndTheirImagesVisible() {
+    let untrusted = WindowActionAvailability(isTrusted: false, hasTargetWindow: true, displayCount: 2)
+    let menu = NSMenu()
+    WindowActionMenu.replaceItems(of: menu, with: menuItems(availability: untrusted))
+    #expect(!menu.autoenablesItems)
+    menu.update()
+    let actions = menu.items.filter { !$0.isSeparatorItem }
+    #expect(actions.count == WindowAction.allCases.count)
+    #expect(actions.filter(\.isEnabled).isEmpty)
     if #available(macOS 27, *) {
-        #expect(item.value(forKey: "preferredImageVisibility") as? Int == 1)
+        #expect(actions.allSatisfy { $0.value(forKey: "preferredImageVisibility") as? Int == 1 })
     }
 }
