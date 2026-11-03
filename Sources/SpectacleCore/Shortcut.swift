@@ -28,6 +28,9 @@ public struct Shortcut: Codable, Equatable, Sendable, Hashable {
         return s + Self.keyLabel(keyCode)
     }
 
+    /// The key alone, as `displayString` shows it: "←", "C", "Space", or "Key N" for an unlabelled code.
+    public var keyLabel: String { Self.keyLabel(keyCode) }
+
     static func keyLabel(_ code: UInt16) -> String {
         switch code {
         case 123: return "←"
