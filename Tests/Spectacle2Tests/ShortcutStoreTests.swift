@@ -1,10 +1,12 @@
 import Testing
 import Foundation
+import DragonKit
 import SpectacleCore
 @testable import Spectacle2
 
 // ShortcutStore.load() merges DefaultShortcuts.map into a persisted map so actions added in a
-// later app version still get a default binding. Each test uses its own UserDefaults suite
+// later app version still get a default binding, while a shortcut the user cleared stays
+// cleared. Each test uses its own UserDefaults suite
 // (never the app's real suiteName) and removes it afterward so reruns start clean.
 
 @MainActor
@@ -30,9 +32,10 @@ import SpectacleCore
     let customBinding = Shortcut(keyCode: 99, modifiers: [.control])
     partial[.leftHalf] = customBinding
 
-    let store = ShortcutStore(suiteName: suiteName)
-    store.save(partial)
-    let map = store.load()
+    // An older build's map: it has never seen the omitted actions. (`save` can't produce one any
+    // more, since it records an action missing from the map as cleared.)
+    UserDefaults(suiteName: suiteName)?.set(try! JSONEncoder().encode(partial), forKey: "settings.v1")
+    let map = ShortcutStore(suiteName: suiteName).load()
 
     for action in WindowAction.allCases {
         #expect(map[action] != nil, "missing binding for \(action)")
@@ -57,4 +60,44 @@ import SpectacleCore
     // A fresh store reading the same suite must see the persisted defaults.
     let reloaded = ShortcutStore(suiteName: suiteName).load()
     #expect(reloaded == DefaultShortcuts.map)
+}
+
+// The General settings and the shortcut map share one suite, so each must survive the other
+// being loaded and saved.
+
+@MainActor
+@Test func generalSettingsSurviveTheShortcutStoreLoadingAndSaving() {
+    let suiteName = "com.dragonapp.spectacle-2.tests.generalSettingsSurviveTheShortcutStoreLoadingAndSaving"
+    defer { UserDefaults(suiteName: suiteName)?.removePersistentDomain(forName: suiteName) }
+
+    var general = AppSettings()
+    general.dragSnapEnabled = false
+    general.gapSize = 8
+    SettingsModel.makeStore(suiteName: suiteName).save(general)
+
+    let shortcuts = ShortcutStore(suiteName: suiteName)
+    var map = shortcuts.load()
+    let customBinding = Shortcut(keyCode: 99, modifiers: [.control])
+    map[.center] = customBinding
+    shortcuts.save(map)
+
+    #expect(SettingsModel.makeStore(suiteName: suiteName).load() == general)
+    #expect(ShortcutStore(suiteName: suiteName).load()[.center] == customBinding)
+}
+
+// A shortcut cleared with Delete is saved without that action, and must stay cleared.
+
+@MainActor
+@Test func aClearedShortcutStaysClearedAfterReload() {
+    let suiteName = "com.dragonapp.spectacle-2.tests.aClearedShortcutStaysClearedAfterReload"
+    defer { UserDefaults(suiteName: suiteName)?.removePersistentDomain(forName: suiteName) }
+
+    let store = ShortcutStore(suiteName: suiteName)
+    var map = store.load()
+    map[.center] = nil
+    store.save(map)
+
+    let reloaded = ShortcutStore(suiteName: suiteName).load()
+    #expect(reloaded[.center] == nil)
+    #expect(reloaded[.leftHalf] == DefaultShortcuts.map[.leftHalf])
 }

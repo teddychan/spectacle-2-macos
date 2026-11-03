@@ -59,13 +59,20 @@ final class SettingsModel {
     var onDragSnapEnabledChange: ((Bool) -> Void)?
 
     init() {
-        let store = DragonSettingsStore(suiteName: Self.suiteName, defaultValue: AppSettings())
+        let store = Self.makeStore(suiteName: Self.suiteName)
         self.store = store
         self.settings = store.load()
         // Reconcile the OS login-item state off the launch critical path (SMAppService is a
         // synchronous ServiceManagement call). The persisted preference is unchanged.
         let enabled = settings.launchAtLogin
         DispatchQueue.main.async { LoginItem.setEnabled(enabled) }
+    }
+
+    /// The settings store, after taking the shortcut map out of its key so `load()` can't mistake
+    /// it for unreadable settings. This runs before `ShortcutStore` exists, hence the call here.
+    static func makeStore(suiteName: String) -> DragonSettingsStore<AppSettings> {
+        ShortcutStore.migrateSharedKey(suiteName: suiteName)
+        return DragonSettingsStore(suiteName: suiteName, defaultValue: AppSettings())
     }
 
     var launchAtLogin: Bool {
