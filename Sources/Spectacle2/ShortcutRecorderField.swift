@@ -56,6 +56,12 @@ struct ShortcutRecorderField: NSViewRepresentable {
         // e.g. the user clicks another field, switches apps, or closes Settings mid-recording.
         override func resignFirstResponder() -> Bool { recording = false; return super.resignFirstResponder() }
         @objc private func windowResignedKey() { recording = false }
+        // AppKit does not call resignFirstResponder on a view removed from its window (e.g. the
+        // menu bar's About replacing the Shortcuts pane), so end recording here too.
+        override func viewWillMove(toWindow newWindow: NSWindow?) {
+            if newWindow !== window { recording = false }
+            super.viewWillMove(toWindow: newWindow)
+        }
 
         private func observeWindowResignKey() {
             observedWindow = window
@@ -74,11 +80,13 @@ struct ShortcutRecorderField: NSViewRepresentable {
         override func keyDown(with event: NSEvent) {
             guard recording else { super.keyDown(with: event); return }
             if event.keyCode == UInt16(kVK_Escape) { recording = false; return }
-            if event.keyCode == UInt16(kVK_Delete) { shortcut = nil; onCapture?(nil); recording = false; return }
+            // End recording before reporting, so hot keys are back on when the pane applies the
+            // new map and the conflicts it gets back are real.
+            if event.keyCode == UInt16(kVK_Delete) { shortcut = nil; recording = false; onCapture?(nil); return }
             let mods = Self.modifierFlags(from: event.modifierFlags)
             guard !mods.isEmpty else { NSSound.beep(); return }   // require a modifier
             let sc = Shortcut(keyCode: event.keyCode, modifiers: mods)
-            shortcut = sc; onCapture?(sc); recording = false
+            shortcut = sc; recording = false; onCapture?(sc)
         }
 
         static func modifierFlags(from ns: NSEvent.ModifierFlags) -> ModifierFlags {
