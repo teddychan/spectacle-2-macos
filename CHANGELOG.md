@@ -3,6 +3,18 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [2.7.0] - 2026-11-03
+
+Every window action is now in the menu bar menu, so you can arrange windows with a mouse or
+trackpad.
+
+### Added
+- **Window actions in the menu bar menu.** Click the Spectacle 2 icon to move the front window to
+  a half, a corner or a third, center it, make it fill the screen, resize it, send it to another
+  display, or undo and redo a move. The items are grouped as in Settings › Shortcuts and each one
+  shows its current shortcut. They are greyed out when Accessibility access is off or no window is
+  focused, and the two display items are greyed out when only one screen is connected.
+
 ## [2.6.0] - 2026-11-03
 
 Russian, plus fixes for settings that could reset, shortcuts that could stop working, and windows
