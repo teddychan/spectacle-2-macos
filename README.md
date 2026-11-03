@@ -75,7 +75,7 @@ Or delete the app and its leftovers by hand:
 
 ## Features
 
-- **18 window actions** — halves, corners, thirds, fullscreen, center, resize, display moves, and undo/redo, each on its own global shortcut
+- **24 window actions** — halves, corners, thirds, two thirds, fullscreen, center, resize, display moves, and undo/redo, each on its own global shortcut
 - **Repeat-press cycling** — press a half or corner shortcut again to cycle that window through ½, ⅔, and ⅓ of the region
 - **Thirds navigation** — ⌃⌥→ and ⌃⌥← step a window through three vertical columns and three horizontal rows
 - **Drag-to-edge snapping** — drag a window to a screen edge or corner to snap it, with a translucent footprint preview of where it will land
@@ -113,6 +113,8 @@ These are the defaults. Change any of them in the Shortcuts pane, or clear one t
 | Upper left / upper right | ⌃⌘← / ⌃⌘→ |
 | Lower left / lower right | ⌃⇧⌘← / ⌃⇧⌘→ |
 | Previous third / next third | ⌃⌥← / ⌃⌥→ |
+| Left, center or right third | none |
+| Left, center or right two thirds | none |
 | Previous display / next display | ⌃⌥⌘← / ⌃⌥⌘→ |
 | Make smaller / make larger | ⌃⌥⇧← / ⌃⌥⇧→ |
 | Undo / redo | ⌥⌘Z / ⌥⇧⌘Z |
@@ -124,6 +126,8 @@ Centering a window does **not** change its size; every other region action does.
 Press a region shortcut repeatedly to cycle it. Activate _left half_ ⌥⌘← more than once and the window moves between ⅓, ⅔, and back to ½ of the left side of the screen. The same applies to the right, top, and bottom halves and to all four corners.
 
 _Previous third_ and _next third_ walk a window around the screen's six thirds — the three vertical columns first, then the three horizontal rows.
+
+_Left third_, _center third_ and _right third_ put a window in one of the screen's three columns, and _left two thirds_, _center two thirds_ and _right two thirds_ make it two columns wide. They land on the same spot on every press. They have no default shortcut, so set one in the Shortcuts pane or choose them from the menu-bar menu.
 
 Resizing works the same way: ⌃⌥⇧→ makes a window larger and ⌃⌥⇧← makes it smaller. Spectacle 2 always tries to keep the edges of a window in contact with the edges of the screen while resizing.
 
