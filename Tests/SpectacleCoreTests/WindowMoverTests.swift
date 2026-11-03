@@ -18,9 +18,23 @@ private func move(_ window: SimulatedWindow, to requested: CGRect) {
     #expect(window.frame == rightHalf)
 }
 
-@Test func windowWithAMinimumSizeEndsOnScreen() {
+@Test func windowWithAMinimumSizeStopsAtTheFloorThenEndsOnScreen() {
     let window = SimulatedWindow(CGRect(x: 300, y: 200, width: 500, height: 400),
                                  size: SimulatedWindow.minimum(CGSize(width: 1000, height: 0)))
     move(window, to: rightHalf)
+    // Standard write, 53 quantized steps (718 … 614), the centring write at x 580, then the
+    // best-effort write pulling the 1000-wide window back inside the right edge.
+    #expect(window.writes.count == 56)
+    #expect(window.writes.map(\.width).min() == 612)
     #expect(window.frame == CGRect(x: 440, y: 0, width: 1000, height: 875))
+}
+
+@Test func terminalsTiledLeftAndRightDoNotOverlap() {
+    let cells = SimulatedWindow.cells(CGSize(width: 7, height: 14))
+    let left = SimulatedWindow(.zero, size: cells), right = SimulatedWindow(.zero, size: cells)
+    move(left, to: CGRect(x: 0, y: 0, width: 720, height: 875))
+    move(right, to: rightHalf)
+    #expect(left.frame.maxX <= right.frame.minX)
+    #expect(left.frame == CGRect(x: 3, y: 4, width: 714, height: 868))
+    #expect(right.frame == CGRect(x: 723, y: 4, width: 714, height: 868))
 }
