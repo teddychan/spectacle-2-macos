@@ -3,6 +3,14 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [2.8.2] - 2026-11-04
+
+A maintenance release. Nothing you use day to day works differently.
+
+### Changed
+- **Update checks use the app's current web address.** Spectacle 2 now looks for new versions at
+  the address of its renamed home on GitHub. Nothing else in the app changed.
+
 ## [2.8.1] - 2026-11-03
 
 A maintenance release on DragonKit 4.3.0. Nothing you use day to day works differently.

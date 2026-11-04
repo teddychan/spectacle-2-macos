@@ -6,8 +6,8 @@
 "app.general.showInMenuBar" = "Mostrar en la barra de menús";
 "app.general.showInMenuBarHint" = "Oculta el icono de la barra de menús. Si está oculto al iniciar, los Ajustes se abren automáticamente para que puedas volver a activarlo.";
 "app.general.languageSection" = "Idioma";
-"app.whatsNew.summary" = "Una versión de mantenimiento que actualiza Spectacle 2 a la última versión del framework compartido en el que se basa. La gestión de ventanas funciona igual que antes.";
-"app.whatsNew.changed1" = "Actualizado a DragonKit 4.3.0, el framework compartido de Ajustes, Acerca de, Novedades y las actualizaciones. Solo cambió la versión: ninguno de esos paneles se ve ni se comporta de forma distinta.";
+"app.whatsNew.summary" = "Una versión de mantenimiento. Las búsquedas de actualizaciones ahora usan la dirección web actual de la app. Nada más cambia en la app.";
+"app.whatsNew.changed1" = "Las búsquedas de actualizaciones ahora usan la dirección web actual de Spectacle 2. Nada más cambió en la app.";
 "app.uninstall.item.app" = "La app y su elemento de inicio";
 "app.uninstall.item.settings" = "Todos los ajustes";
 "app.uninstall.item.state" = "Estado guardado de la aplicación";
