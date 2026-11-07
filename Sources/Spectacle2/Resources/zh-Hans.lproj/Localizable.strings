@@ -6,8 +6,8 @@
 "app.general.showInMenuBar" = "在菜单栏中显示";
 "app.general.showInMenuBarHint" = "隐藏菜单栏图标。如果启动时已隐藏，将自动打开设置以便重新开启。";
 "app.general.languageSection" = "语言";
-"app.whatsNew.summary" = "这是一次维护更新。检查更新现在使用应用当前的网址。应用的其他部分没有变化。";
-"app.whatsNew.changed1" = "检查更新现在使用 Spectacle 2 当前的网址。应用的其他部分没有变化。";
+"app.whatsNew.summary" = "这是一次维护更新。Spectacle 2 升级了所依赖的共享框架，窗口管理与之前完全相同。";
+"app.whatsNew.changed1" = "更新到 DragonKit 4.4.0，这是支撑设置、关于、新功能和软件更新的共享框架。此次只是版本变化，这些面板的外观和行为都没有改变。";
 "app.uninstall.item.app" = "App 及其登录项";
 "app.uninstall.item.settings" = "所有设置";
 "app.uninstall.item.state" = "已保存的应用程序状态";

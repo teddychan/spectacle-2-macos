@@ -3,6 +3,16 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [2.9.0] - 2026-11-07
+
+A maintenance release on DragonKit 4.4.0. Nothing you use day to day works differently.
+
+### Internal
+- **DragonKit 4.3.0 to 4.4.0**, the shared framework behind Settings, About, What's New and
+  updates. About's "Built with" row shows the new version. Uninstall still removes the same
+  settings: the kit now clears the app's settings suite by itself, so the app no longer lists it.
+  Backup & Restore looks the same as before.
+
 ## [2.8.2] - 2026-11-04
 
 A maintenance release. Nothing you use day to day works differently.

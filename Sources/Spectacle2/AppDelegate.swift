@@ -69,8 +69,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let library = FileManager.default.homeDirectoryForCurrentUser.appending(path: "Library")
         return UninstallConfig(
             appName: appName,
+            // No `suiteNames`: the kit always clears `<bundleID>.settings`, which is
+            // `SettingsModel.suiteName`, and this app keeps nothing in any other suite.
             bundleID: bundleID,
-            suiteNames: [SettingsModel.suiteName],
             checklistItems: [
                 L("app.uninstall.item.app"),
                 L("app.uninstall.item.settings"),

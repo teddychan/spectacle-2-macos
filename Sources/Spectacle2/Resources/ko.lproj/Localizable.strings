@@ -6,8 +6,8 @@
 "app.general.showInMenuBar" = "메뉴 막대에 표시";
 "app.general.showInMenuBarHint" = "메뉴 막대 아이콘을 숨깁니다. 실행 시 숨겨져 있으면 다시 켤 수 있도록 설정이 자동으로 열립니다.";
 "app.general.languageSection" = "언어";
-"app.whatsNew.summary" = "유지 관리 릴리스입니다. 업데이트 확인이 이제 앱의 현재 웹 주소를 사용합니다. 앱의 다른 부분은 바뀌지 않습니다.";
-"app.whatsNew.changed1" = "업데이트 확인이 이제 Spectacle 2의 현재 웹 주소를 사용합니다. 앱의 다른 부분은 바뀌지 않았습니다.";
+"app.whatsNew.summary" = "유지 관리 릴리스입니다. Spectacle 2가 기반으로 삼는 공용 프레임워크를 최신 버전으로 올렸습니다. 창 관리는 이전과 같습니다.";
+"app.whatsNew.changed1" = "설정, 정보, 새로운 기능, 업데이트를 담당하는 공용 프레임워크인 DragonKit 4.4.0으로 업데이트했습니다. 바뀐 것은 버전뿐이며 해당 패널의 모습과 동작은 그대로입니다.";
 "app.uninstall.item.app" = "앱과 로그인 항목";
 "app.uninstall.item.settings" = "모든 설정";
 "app.uninstall.item.state" = "저장된 응용 프로그램 상태";
