@@ -32,7 +32,7 @@ let package = Package(
         // accepted price of the unified pin form, not an oversight — which is why a kit bump still
         // wants a deliberate build-and-run check, on the version that actually resolved, before a
         // release tag goes out.
-        .package(url: "https://github.com/teddychan/dragon-kit", from: "4.3.0"),
+        .package(url: "https://github.com/teddychan/dragon-kit", from: "4.4.0"),
     ],
     targets: [
         .target(name: "SpectacleCore"),
