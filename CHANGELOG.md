@@ -3,6 +3,11 @@
 All notable changes to Spectacle 2 are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [2.9.1] - 2026-11-08
+
+Settings backups now keep each app's history separate in a shared folder. Two backups saved
+in the same second remain available, and deletion errors are shown. Updated to DragonKit 4.5.1.
+
 ## [2.9.0] - 2026-11-07
 
 A maintenance release on DragonKit 4.4.0. Nothing you use day to day works differently.
