@@ -6,8 +6,8 @@
 "app.general.showInMenuBar" = "在選單列中顯示";
 "app.general.showInMenuBarHint" = "隱藏選單列圖像。若啟動時已隱藏，將自動打開設定以便重新開啟。";
 "app.general.languageSection" = "語言";
-"app.whatsNew.summary" = "這是一次維護更新。Spectacle 2 升級了所依賴的共用框架，視窗管理與先前完全相同。";
-"app.whatsNew.changed1" = "更新到 DragonKit 4.4.0，這是支援設定、關於、新功能和軟體更新的共用框架。這次只是版本變化，這些面板的外觀和行為都沒有改變。";
+"app.whatsNew.summary" = "設定備份更安全。";
+"app.whatsNew.changed1" = "共用資料夾中的備份不再影響其他 App 的備份記錄。同一秒內儲存兩次會保留兩個副本，刪除失敗時也會顯示錯誤。";
 "app.uninstall.item.app" = "App 及其登入項目";
 "app.uninstall.item.settings" = "所有設定";
 "app.uninstall.item.state" = "已儲存的應用程式狀態";

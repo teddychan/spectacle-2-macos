@@ -6,8 +6,8 @@
 "app.general.showInMenuBar" = "Afficher dans la barre des menus";
 "app.general.showInMenuBarHint" = "Masque l'icône de la barre des menus. Si elle est masquée au lancement, les Réglages s'ouvrent automatiquement pour la réactiver.";
 "app.general.languageSection" = "Langue";
-"app.whatsNew.summary" = "Une version de maintenance qui fait passer Spectacle 2 à la dernière version du framework partagé sur lequel il repose. La gestion des fenêtres fonctionne comme avant.";
-"app.whatsNew.changed1" = "Mise à jour vers DragonKit 4.4.0, le framework partagé derrière Réglages, À propos, Nouveautés et les mises à jour. Seule la version a changé : aucun de ces volets n'a changé d'apparence ni de comportement.";
+"app.whatsNew.summary" = "Des sauvegardes de réglages plus sûres.";
+"app.whatsNew.changed1" = "Les sauvegardes d'un dossier partagé n'affectent plus l'historique des autres apps. Deux sauvegardes dans la même seconde sont conservées et les erreurs de suppression sont affichées.";
 "app.uninstall.item.app" = "L'app et son élément d'ouverture";
 "app.uninstall.item.settings" = "Tous les réglages";
 "app.uninstall.item.state" = "État enregistré de l'application";
